@@ -36,3 +36,9 @@ arg_master_database.sqlite
 .idea/
 .vscode/
 .DS_Store
+ARG_Developer_Log.md
+ARG_Master_Blueprint.md
+PROJECT_GUIDE.md
+README.md
+arg_mlops_audit_and_roadmap.md
+
