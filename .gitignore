@@ -1,44 +1,62 @@
-# Python
+# --- Aequitas-RoadGuard .gitignore ---
+
+# Python Environment and Cache
 ARGvenv/
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Models and Large Files
+# Large Models and Weights (Ignored to keep repo light)
 *.pt
 *.m.pt
+*.weights
+
+# Multimedia Data (Ignored)
 *.mp4
 *.avi
 *.mov
 *.mkv
+*.jpg
+*.png
+*.jpeg
+*.gif
 
-# Data and Artifacts Cleaned
+# Data Directories (Heavily restricted)
+images/
+plate_dataset/
+vehicle_dataset/
 annotated_data/
 compiled_training_data/
 evidence_vault/
-plate_dataset/
-vehicle_dataset/
-runs/
 arg_engine_output/
 data_csv/
-data_pipeline/
-scrapers_and_tools/
+data_pipeline/train/
+data_pipeline/incoming_plates/
 test_images_outputs/
 videos_structured/
+runs/
 
-# Database
+# Growth logs and large JSONs
+*.jsonl
+*.csv
+
+# Database files
 *.sqlite
-arg_master_database.sqlite
+*.db
 
-# Misc
+# OS and IDE files
 .gemini/
 .idea/
 .vscode/
 .DS_Store
-ARG_Developer_Log.md
-ARG_Master_Blueprint.md
-PROJECT_GUIDE.md
-README.md
-arg_mlops_audit_and_roadmap.md
+Thumbs.db
 
+# --- TRACKED FILES (FOR REFERENCE) ---
+# We make sure code and documentation are explicitly tracked.
+!README.md
+!PROJECT_GUIDE.md
+!ARG_Master_Blueprint.md
+!ARG_Developer_Log.md
+!arg_mlops_audit_and_roadmap.md
+!requirements.txt
