@@ -1,0 +1,32 @@
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# Deep Learning
+torch
+torchvision
+torchaudio
+
+# Computer Vision & OCR
+ultralytics==8.3.0
+opencv-python
+EasyOCR
+Pillow
+imagehash
+
+
+# Scraping & Web
+requests
+beautifulsoup4
+selenium
+webdriver-manager
+curl_cffi
+
+# Backend & UI
+fastapi
+uvicorn
+streamlit
+
+# Data & Database
+pandas
+SQLAlchemy
+numpy
+scikit-learn

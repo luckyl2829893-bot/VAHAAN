@@ -1,0 +1,234 @@
+
+WikipediaThe Free Encyclopedia
+
+Donate
+Create account
+Log in
+
+Vehicle registration plates of Nepal
+
+Article
+Talk
+Read
+Edit
+View history
+
+Tools
+From Wikipedia, the free encyclopedia
+Federal Democratic Republic of Nepal
+
+Nepalese regular legal standard number plate (front).
+Country	   Nepal
+Country code	NEP
+Current series
+Serial format	A BC1234
+Colour (front)	Black on white
+Colour (rear)	Black on white
+In Nepal, all road vehicles with or without a motor (except bicycles) are tagged with a registration number. This is issued by the state-level Transport Management Office, a government agency under the Department of Transport Management.[1] The license plates must be placed in the front as well as back of the vehicle. The international vehicle registration code for Nepal is NEP.
+
+The President of Nepal travels in an official vehicle that has no number on its plates. Instead it has the Coat of Arms of Nepal embossed on it.
+
+2020-present
+The current system was first introduced in 2017 and was scheduled to replace the previous format from 2018 onwards. However, Nepalese Supreme court issued an order to halt the issuing of this new format. This was due to a petition that was filed, against the government's dropping of Devanagari script from license plates and replacing it with Latin Script, and also about whether the RFID chips in the plates could be used for spying on public. The court order was finally rescinded in December 2019, and starting from July 2020, this format has been issued.[2] These new plates replace Zones that were dissolved on 2015, with Provinces. These license plates are embossed, and have a uniform black on white background color scheme. They are in Latin, and utilize FE-Schrift font. These plates come with a RFID microchip that enables the government to maintain uniformity in issuance of number plates and prevent duplication. Similarly, the new number plates also help authorities to maintain digital records of vehicles plying on the road tolls, collect revenue on time and control auto theft.
+
+The plates have a strip on their left side, with the national flag of Nepal, as well as a blue colored text NEP.
+
+The plates consist of the following format: PROVINCE X AB 0123. X can be any letter between A and K, which denote the classification of the vehicle:
+
+A: Motorcycle, Scooter, Moped
+B: Car, Jeep, Cargo/Delivery Van
+C: Tempo, Auto Rickshaw
+C1: E-Rickshaw
+D: Power Tiller
+E: Tractor
+F: Minibus, Mini Truck
+G: Truck, Bus, Lorry
+H: Road Roller, Dozer
+H1: Dozer
+H2: Road Roller
+I: Crane, Fire Brigade, Loader
+I1: Crane
+I2: Fire Brigade
+I3: Loader
+J1: Excavator
+J2: Backhoe Loader
+J3: Grader
+J4: Forklift
+J5: Other Heavy Equipment
+K: Scooter, Moped
+The plates come in different sizes and shapes depending on the size of the vehicle, as well as whether the plate is to be installed at the front of the vehicle and at the rear.
+
+3-wheelers
+3-wheelers, which consist of vehicles such as rickshaws are issued license plates in the following dimensions and configuration:
+
+Front and rear: : 24 cm x 13 cm
+Front	Rear
+	
+Typical cars
+Typical cars, also referred to as "light and medium vehicles" are issued license plates in the following dimensions and configurations:
+
+Front: 45 cm x 11 cm
+Rear: 30 cm x 18.5 cm
+Front	Rear
+	
+Heavy vehicles
+Heavy vehicles, such as trucks and buses, are issued license plates in the following dimensions and configurations:
+
+Front: 52 cm x 11 cm
+Rear: 36 cm x 21 cm
+Front	Rear
+	
+Previous format
+
+A taxi plate from the 70s, registered in Bagmati zone.
+The previous system of the licence plate of Nepal consisted of four parts composed of letters (X) and numbers (#) in the X # X #### format:
+
+X indicates the zonal code, signifying the zone in which the vehicle is registered.
+# is a 1 or 2 digit number which is prefixed when the four digit number runs out from the last part.
+X indicates vehicle category, whether it is a privately owned vehicle, public commercial, governmental, etc., as well as whether it is a heavy vehicle, medium-sized vehicle, or a light vehicle.
+#### signifies four digits running in sequence.
+Zonal Code
+Main article: Zones of Nepal
+
+Zones of Nepal, dissolved in 2015. Capital Kathmandu was located in Bagmati Zone
+All former fourteen zones of Nepal had their own abbreviated code for reference purpose. These codes were normally single letter in Nepali and two letters (sometimes three letters also, but the third letter 'a' can be omitted) in English. The following is the list of zonal codes in both languages:
+
+Zone	Code in Nepali	Code in English
+Mechi	मे	ME
+Kosi	को	KO
+Sagarmatha	स	SA
+Janakpur	ज	JA
+Bagmati	बा	BA
+Narayani	ना	NA
+Gandaki	ग	GA
+Lumbini	लु	LU
+Dhawalagiri	ध	DH
+Rapti	रा	RA
+Bheri	भे	BHE
+Karnali	क	KA
+Seti	से	SE
+Mahakali	म	MA
+Nepalese numbers
+These license plates used Devanagari numerals numbers as opposed to Arabic numerals. Below is a table for reference:
+
+Modern
+Devanagari	Western
+Arabic
+०	0
+१	1
+२	2
+३	3
+४	4
+५	5
+६	6
+७	7
+८	8
+९	9
+Vehicle classification
+For the purpose of vehicle registration Vehicle & Transport Management Act, 2049 (1992) and Vehicle & Transport Management Rule, 2054 (1997) of Nepal, classifies vehicles into the following 5 main categories on the basis of size and capacity:[3]
+
+Heavy and medium-sized vehicle: This includes bus, truck, dozer, dumper, loader, crane, Fire engine, tanker, roller, pick-up, van, mini bus, mini truck, mini van etc. having the capacity to carry more than 14 people (for passenger vehicle) or more than 4 tons (for cargo vehicle).
+Light vehicle: This includes car, SUV, van, pick-up, micro bus etc. having the capacity to carry less than 24 people or less than 4 tons.
+Two-wheeler: This includes vehicle having two wheels like motor cycle, scooter etc.
+Tractor and power-trailer
+Three-wheeler: This includes vehicle having three wheels like electric-safari, rickshaw etc.
+The above-mentioned each categories are further divided into 5 sub categories on the basis of ownership and service-type which are as follows:
+
+Private vehicle: Vehicles which are for entirely personal purpose.
+Public vehicle: Vehicles which are for public transport purpose.
+Government vehicle: Vehicles owned by government agencies and constitutional bodies such as ministries, departments, directorates, along with the police, military, etc.
+National Corporation vehicle: Vehicles which are registered under the name of public corporations that are fully or partially owned by the government fall under this category.
+Tourist vehicle: Vehicles which are registered for tourist transport.
+Categories	Vehicle Size
+Heavy Vehicle
+Medium Vehicle	Light Vehicle	Three-Wheeler
+Two-Wheeler
+Private	क	KA	च	CA	प	PA
+Public	ख	KHA	ज	JA	फ	PHA
+Government	ग	GA	झ	JHA	ब	BA
+Diplomatic	सी.डी.	C.D. (see.dee.)	सी.डी.	C.D. (see.dee.)	—
+Tourist	य	YA	य	YA	य	YA
+National Corporation	घ	GHA	ञ	ÑA	—
+Plate types
+In Nepal, various vehicle types were classified as mentioned above. Those classifications of vehicles were indicated by the color of their license plates. For example, the colors of license plate for Private owned vehicles and Government owned vehicles were different. Vehicle size was indicated by a 1-letter code in the format X # X ####. Otherwise Nepal did not enforce any standardized size or font, or even a specific shade of the color associated with each classification. Thus license plates looked quite diverse in their shape.
+
+Private
+Privates vehicles in Nepal use Red license plates with white letters. Private vehicles are given the following vehicle size codes:
+
+क (KA): Heavy Vehicles
+च (CA): Light Vehicles
+प (PA): Motorcycles
+	Heavy-sized Private Car License Plate
+	Light-sized Private Car License Plate
+	Light-sized Private Car License Plate
+Narrow-shaped 1-line plate, sometimes used as front plate
+	Private Motorcycle License Plate
+People/commercial
+Public vehicles of Nepal have license plates with black licence plates with white letters. Public/Commercial vehicles are given the following vehicle size codes:
+
+ख (KHA): Heavy Vehicles
+ज (JA): Light Vehicles
+फ (PHA): Motorcycles
+	Heavy-sized Commercial/Public Vehicle License Plate
+	Light-sized Commercial/Public Vehicle License Plate
+	Light-sized Commercial/Public Vehicle License Plate
+Narrow-shaped 1-line plate, sometimes used as front plate
+	Commercial Motorcycle License Plate
+(Usually refers to Rickshaws)
+Government
+Nepalese vehicles owned by the government have white licence plates with red letters. Such vehicles are given the following vehicle size codes:
+
+ग (GA): Heavy Vehicles
+झ (JHA): Light Vehicles
+ब (BA): Motorcycles
+	Heavy-sized Governmental Vehicle License Plate
+	Light-sized Governmental Vehicle License Plate
+Narrow-shaped 1-line plate, sometimes used as front plate
+	Governmental Motorcycle License Plate
+National corporations
+The National corporations such as Nepal Telecom, Dairy Development Corporation, and Nepal Electricity Authority Archived 2017-04-25 at the Wayback Machine use Yellow number plates with dark-colored (Usually black, sometimes blue) letters. Such vehicles are given the following vehicle size codes:
+
+घ (GHA): Heavy Vehicles
+ञ (ÑA): Light Vehicles
+	Heavy-sized National Corporation Vehicle License Plate
+	Light-sized National Corporation Vehicle License Plate
+	Light-sized National Corporation Vehicle License Plate
+Narrow-shaped 1-line plate, sometimes used as front plate
+Tourists
+Vehicles meant for the transportation of tourists use green plates with white letters. Such vehicles are owned by travel agencies and hotels. Regardless of vehicle size, such vehicles are given the following code:
+
+य (YA)
+	Light-sized National Corporation Vehicle License Plate
+	Light-sized National Corporation Vehicle License Plate
+Narrow-shaped 1-line plate, sometimes used as front plate
+Diplomatic
+Vehicles registered in Nepal under the name of foreign diplomatic agencies such as embassies, consulates, or missions use blue plates with white letters. Generally, "Corps Diplomatique" vehicles have the following format: ## सी.डी. ##. "सी.डी." is literally read as "see.dee.", and is meant to be the Nepalese equivalent of the code "C.D.". Other vehicles such as vehicles belonging to consular aides, Honorary Consular Positions generally use H.C.C format with "blue" plates with "white" letters. Most other countries do not provide Diplomatic(Blue) Number Plates to Honorary Consular Positions. A lot of the times, since these vehicles belong to foreigners, their license plate comes with an English translation as well.
+
+	Light-sized National Corporation Vehicle License Plate
+	Light-sized National Corporation Vehicle License Plate
+Narrow-shaped 1-line plate, sometimes used as front plate
+References
+ "Department of Transport Management website". Archived from the original on 2024-12-06. Retrieved 2012-09-02.
+ "Embossed licence plate compulsory for all vehicles from mid-July".
+ p.48; Vehicle & Transport Management Rule, 2054 (1997)
+External links
+Department of Transport Management website Archived 2024-12-06 at the Wayback Machine
+Ministry of Physical Planning, Works & Transport Management website
+Metropolitan Traffic Police Division website
+vte
+Vehicle registration plates of Asia
+Sovereign states	
+AfghanistanArmeniaAzerbaijanBahrainBangladeshBhutanBruneiCambodiaChinaCyprusEgyptGeorgiaIndiaIndonesiaIranIraqIsraelJapanJordanKazakhstanNorth KoreaSouth KoreaKuwaitKyrgyzstanLaosLebanonMalaysiaMaldivesMongoliaMyanmarNepalOmanPalestinePakistanPhilippinesQatarRussiaSaudi ArabiaSingaporeSri LankaSyriaTajikistanThailandTimor-Leste (East Timor)TurkeyTurkmenistanUnited Arab EmiratesUzbekistanVietnamYemen
+States with
+limited recognition	
+AbkhaziaNorthern CyprusSouth OssetiaTaiwan
+Dependencies and
+other territories	
+British Indian Ocean TerritoryChristmas IslandCocos (Keeling) IslandsHong KongMacau
+ Category Asia portal
+Category: Vehicle registration plates by country
+This page was last edited on 12 February 2026, at 17:21 (UTC).
+Text is available under the Creative Commons Attribution-ShareAlike 4.0 License; additional terms may apply. By using this site, you agree to the Terms of Use and Privacy Policy. Wikipedia® is a registered trademark of the Wikimedia Foundation, Inc., a non-profit organization.
+Privacy policyAbout WikipediaDisclaimersContact WikipediaLegal & safety contactsCode of ConductDevelopersStatisticsCookie statementMobile view
+Wikimedia Foundation
+Powered by MediaWiki

@@ -1,0 +1,38 @@
+# Python
+ARGvenv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Models and Large Files
+*.pt
+*.m.pt
+*.mp4
+*.avi
+*.mov
+*.mkv
+
+# Data and Artifacts Cleaned
+annotated_data/
+compiled_training_data/
+evidence_vault/
+plate_dataset/
+vehicle_dataset/
+runs/
+arg_engine_output/
+data_csv/
+data_pipeline/
+scrapers_and_tools/
+test_images_outputs/
+videos_structured/
+
+# Database
+*.sqlite
+arg_master_database.sqlite
+
+# Misc
+.gemini/
+.idea/
+.vscode/
+.DS_Store
