@@ -171,6 +171,7 @@ def _citizen(state_code):
         "city":  city, "state": si["state"],
         "phone": f"******{random.randint(1000,9999)}",
         "cibil": random.randint(550,850),
+        "ghp":   random.randint(600,1000), # Good Human Points
         "pan":   _pan(),
     }
 
@@ -277,17 +278,17 @@ def _ins_citizen(c, aadhar, vid, cit):
         INSERT IGNORE INTO citizens (
             aadhar_masked, virtual_id,   full_name,    gender,
             date_of_birth, address,      city,         state,
-            phone_masked,  pan_number,   cibil_score,  kyc_status
+            phone_masked,  pan_number,   cibil_score,  good_human_points, kyc_status
         ) VALUES (
             %s, %s, %s, %s,
             %s, %s, %s, %s,
-            %s, %s, %s, %s
+            %s, %s, %s, %s, %s
         )
     """
     params = (
         aadhar, vid, cit["name"], cit["gender"],
         cit["dob"], cit["addr"], cit["city"], cit["state"],
-        cit["phone"], cit["pan"], cit["cibil"], "Full KYC"
+        cit["phone"], cit["pan"], cit["cibil"], cit["ghp"], "Full KYC"
     )
     c.execute(DBManager.format_query(q), params)
 

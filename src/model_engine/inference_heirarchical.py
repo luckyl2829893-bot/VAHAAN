@@ -37,7 +37,10 @@ try:
 except ImportError:
     _GDINO_AVAILABLE = False
 
-VEHICLE_COCO_IDS = {2: "Car", 3: "Motorcycle", 5: "Bus", 7: "Truck"}
+VEHICLE_COCO_IDS = {0: "Car", 1: "Motorcycle", 2: "Bus", 3: "Truck"}
+
+
+
 
 SUBCOMP_CLASSES = {
     0: "license_plate",
@@ -66,15 +69,23 @@ VEHICLE_BOX_COLOR  = (0, 220, 0)
 TRACKING_ID_COLOR  = (255, 255, 255)
 WEALTH_ALERT_COLOR = (0,  50, 255)
 
-VEHICLE_CONF  = 0.35
+VEHICLE_CONF  = 0.10
+VEHICLE_IOU   = 0.50
 SUBCOMP_CONF  = 0.20
-ANALYSIS_CONF = 0.30
+ANALYSIS_CONF = 0.25
 SUBCOMP_IOU   = 0.45
 
-ROI_PAD = 20
+ROI_PAD = 10
+GDINO_CACHE_TTL = 30   # Reuse GDINO results for N frames per tracked vehicle
+MAX_GDINO_PER_FRAME = 5  # Max vehicles to run GDINO on per frame
 
-DEFAULT_VEHICLE_MODEL = r"yolo11m.pt"
-DEFAULT_SUBCOMP_MODEL = r"runs\train\arg_vehicle_v11m\weights\best.pt"
+DEFAULT_VEHICLE_MODEL = r"best_new.pt"
+DEFAULT_SUBCOMP_MODEL = r"models/stage2_subcomp/non_existent.pt"
+
+
+
+
+
 DEFAULT_CSV           = r"data_csv\cars_details_data.csv"
 
 GDINO_CONFIG  = r"C:\Users\laksh\Desktop\image\models\gdino\GroundingDINO_SwinT_OGC.py"
@@ -407,8 +418,12 @@ class HierarchicalDetector:
         use_gdino:          bool = False,
     ):
         self.use_gdino = use_gdino
-        device = "cuda" if torch.cuda.is_available() else "cpu"
+        device = "cuda"
+        if not torch.cuda.is_available():
+            raise RuntimeError("CRITICAL ERROR: GPU requested but CUDA is not available! Pipeline halting to prevent CPU execution.")
+        
         self.device = torch.device(device)
+
         
         if use_gdino:
             if not _GDINO_AVAILABLE:
@@ -416,7 +431,23 @@ class HierarchicalDetector:
             print(f"[ARG] Loading Stage-2 GroundingDINO (Zero-Shot) on {device.upper()} …")
             self.subcomp_model = load_gdino_model(GDINO_CONFIG, GDINO_WEIGHTS, device=device)
             self.subcomp_model = self.subcomp_model.to(self.device)
-            # GDino Stable Precision move
+            
+            # Cache Transforms (V14 Sonic Overdrive)
+            self.front_transform = T.Compose([
+                T.RandomResize([448], max_size=800),
+                T.ToTensor(),
+                T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ])
+            self.side_transform = T.Compose([
+                T.RandomResize([320], max_size=640),
+                T.ToTensor(),
+                T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ])
+            self.zoom_transform = T.Compose([
+                T.RandomResize([800], max_size=1333),
+                T.ToTensor(),
+                T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
+            ])
         else:
             print(f"[ARG] Loading Stage-2 sub-component model on {device.upper()} …")
             self.subcomp_model = YOLO(subcomp_model_path).to(self.device)
@@ -424,27 +455,15 @@ class HierarchicalDetector:
         print(f"[ARG] Loading Stage-1 vehicle model on {device.upper()} …")
         self.vehicle_model = YOLO(vehicle_model_path).to(self.device)
 
-        # Cache Transforms (V14 Sonic Overdrive)
-        self.front_transform = T.Compose([
-            T.RandomResize([448], max_size=800),
-            T.ToTensor(),
-            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-        ])
-        self.side_transform = T.Compose([
-            T.RandomResize([320], max_size=640),
-            T.ToTensor(),
-            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-        ])
-        self.zoom_transform = T.Compose([
-            T.RandomResize([800], max_size=1333),
-            T.ToTensor(),
-            T.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225]),
-        ])
-
         self.vehicle_conf = vehicle_conf
+
         self.subcomp_conf = subcomp_conf
         self.wealth_db    = WealthDatabase(csv_path)
         self._track_history: dict = {}
+        self._gdino_cache:   dict = {}  # tid -> (frame_idx, results)
+        self._frame_idx           = 0
+        print(f"[ARG] Pipeline ready (GPU Accelerated).")
+
         
         # Verify GPU visibility
         if device == "cuda":
@@ -585,103 +604,54 @@ class HierarchicalDetector:
                         "conf": float(blogit)
                     })
 
-        # ──── GEOMETRIC VALIDATION (v5 - Absolute Structural Stacking) ──── #
+        # ──── GEOMETRIC VALIDATION (v9 - Precision Sharpness) ──── #
         validated = []
         is_bike = vehicle_type.lower() == "motorcycle"
-        
-        # 1. Primary Plate (The "Anchor" for stacking)
+
+        # 1. Plates — Aspect Ratio & Vertical Centering (Kills Decals)
         all_plates = sorted([d for d in raw_detections if d["cls"] == 0], key=lambda x: x["conf"], reverse=True)
-        primary_plate = all_plates[0] if all_plates else None
-        if primary_plate:
-            validated.append(primary_plate)
-            tp_y1 = primary_plate["box"][1] - primary_plate["box"][3]/2 # Top of plate
-        else:
-            tp_y1 = 1.0 # Bottom of ROI if no plate found
-
-        # 2. Grilles
-        valid_grilles = sorted([d for d in raw_detections if d["cls"] == 2], key=lambda x: x["conf"], reverse=True)
-        primary_grille = None
-        if not is_bike and valid_grilles:
-            for g in valid_grilles:
-                gcx, gcy, gw, gh = g["box"]
-                # RULE: Grille MUST be clearly ABOVE the license plate top
-                if gcy + gh/2 < tp_y1 + 0.02: 
-                    validated.append(g)
-                    primary_grille = g
-                    break
+        primary_plate = None
+        for p in all_plates:
+            pcx, pcy, pw, ph = p["box"]
+            p_aspect = pw / max(ph, 0.001)
+            # Indian Plates: 3.2 to 6.8 Aspect | Decals like "Lithium" are outside this range
+            if not (3.2 < p_aspect < 6.8): continue
+            if not (0.40 < pcy < 0.90): continue  # Must be in the typical plate zone
+            if pw > 0.40 or ph > 0.20: continue   # Not too large relative to vehicle
+            
+            validated.append(p)
+            if primary_plate is None:
+                primary_plate = p
         
-        # 3. Logos (Strict Placement and Size)
+        tp_y1 = primary_plate["box"][1] if primary_plate else 1.0
+
+        # 2. Logos — Anchored above the plate
         valid_logos = sorted([d for d in raw_detections if d["cls"] == 1], key=lambda x: x["conf"], reverse=True)
-        if is_bike:
-            # RULE: Motorcycle logo only allowed if view is side (not front/back)
-            if is_side_hint:
-                for logo in valid_logos:
-                    lcx, lcy, lw, lh = logo["box"]
-                    # Usually on tank
-                    if 0.3 < lcx < 0.7 and 0.2 < lcy < 0.6:
-                        validated.append(logo)
-                        break
-        else:
-            for logo in valid_logos:
-                lcx, lcy, lw, lh = logo["box"]
-                # RULE A: Logo Width CANNOT exceed 10% of the vehicle width
-                if lw > 0.10: 
-                    print(f"      [KILLED] Logo too big ({lw:.2f})")
-                    continue 
-                
-                # RULE B: Logo MUST be clearly ABOVE the license plate top
-                if lcy + lh/2 > tp_y1: 
-                    print(f"      [KILLED] Logo below plate anchor")
-                    continue
+        for logo in valid_logos:
+            lcx, lcy, lw, lh = logo["box"]
+            # RECOVERY: If found above the plate, it is highly likely a real logo
+            if lcy < tp_y1 and lw < 0.20:
+                validated.append(logo)
+                break
 
-                # RULE C: WINDSHIELD EXCLUSION
-                if lcy < 0.35: 
-                    print(f"      [KILLED] Logo in windshield zone")
-                    continue
-                
-                # RULE D: Logo must be STRICTLY central for cars
-                if abs(lcx - 0.5) > 0.12: 
-                    print(f"      [KILLED] Logo at {lcx:.2f} (Not Centered)")
-                    continue
-                
-                # RULE E: If grille exists, logo should be near it (in or above it)
-                if primary_grille:
-                    gcx, gcy, gw, gh = primary_grille["box"]
-                    if abs(lcx - gcx) > gw * 0.6: 
-                        print(f"      [KILLED] Logo outside grille horizontal bounds")
-                        continue
-                    
-                    if lcy <= gcy + gh/2 + 0.05:
-                        validated.append(logo)
-                        print(f"      [VALID] Logo verified in Grille at {lcx:.2f}")
-                        break
-                else:
-                    if 0.35 < lcy < 0.7:
-                        validated.append(logo)
-                        print(f"      [VALID] Logo verified on Boot/Bonnet at {lcx:.2f}")
-                        break
-
-        # 4. Lamps (Edges & Vertical sanity)
+        # 3. Grilles — Forbidden if Taillamps are present
         raw_heads = sorted([d for d in raw_detections if d["cls"] == 3], key=lambda x: x["conf"], reverse=True)
         raw_tails = sorted([d for d in raw_detections if d["cls"] == 4], key=lambda x: x["conf"], reverse=True)
         
-        # Winner-takes-all for orientation consistency
         h_conf = sum([d["conf"] for d in raw_heads[:2]])
         t_conf = sum([d["conf"] for d in raw_tails[:2]])
-        chosen_lamps = raw_heads[:2] if h_conf >= t_conf else raw_tails[:2]
+        is_rear = t_conf > h_conf
         
+        if not is_rear:
+            valid_grilles = sorted([d for d in raw_detections if d["cls"] == 2], key=lambda x: x["conf"], reverse=True)
+            for g in valid_grilles:
+                if g["box"][2] * g["box"][3] > 0.08: continue
+                validated.append(g)
+                break
+
+        # 4. Lamps — Red = Tail Lock
+        chosen_lamps = raw_heads[:2] if not is_rear else raw_tails[:2]
         for lamp in chosen_lamps:
-            lcx, lcy, lw, lh = lamp["box"]
-            # RULE: Lamps must NOT be below the license plate
-            if lcy > tp_y1 + 0.1: continue
-            
-            if not is_bike:
-                is_edge = lcx < 0.38 or lcx > 0.62
-                if not is_edge: continue
-            else:
-                if lamp["cls"] == 3 and abs(lcx - 0.5) > 0.25:
-                    continue
-            
             validated.append(lamp)
 
         return validated
@@ -693,8 +663,10 @@ class HierarchicalDetector:
             frame,
             persist=persist,
             conf=self.vehicle_conf,
+            iou=VEHICLE_IOU,
             classes=list(VEHICLE_COCO_IDS.keys()),
             verbose=False,
+            agnostic_nms=True,  # Prevents double-boxing same vehicle as car+truck
         )
 
         if not track_results or track_results[0].boxes is None:
@@ -730,7 +702,18 @@ class HierarchicalDetector:
                 cls_name = VEHICLE_COCO_IDS[cls_id]
                 aspect = rw / max(rh, 1)
                 is_side = (aspect > 1.6 and cls_name != "Motorcycle") or (aspect > 2.2 and cls_name in ["Truck", "Bus"])
-                gd_results = self._run_gdino_on_roi(roi, vehicle_type=cls_name, is_side_hint=is_side)
+
+                # ──── SMART CACHE (V14 Turbo) ────
+                # Only re-run GDINO every 12 frames for the same track ID
+                cache_key = int(tid)
+                cached = self._gdino_cache.get(cache_key)
+                if cached and (self._frame_idx - cached[0] < GDINO_CACHE_TTL):
+                    gd_results = cached[1]
+                else:
+                    gd_results = self._run_gdino_on_roi(roi, vehicle_type=cls_name, is_side_hint=is_side)
+                    self._gdino_cache[cache_key] = (self._frame_idx, gd_results)
+
+
                 subcomps: list[SubComponent] = []
                 for res in gd_results:
                     cx_c, cy_c, bw_c, bh_c = res["box"]
@@ -832,11 +815,12 @@ class HierarchicalDetector:
             rel_size   = box_area / max(frame_area, 1)
             bbox_aspect = (x2 - x1) / max(y2 - y1, 1)
 
+            # ── Plate color → Vehicle reclassification (Indian rules) ──
             if is_yellow_plate:
                 if record.coco_class == "Car":
-                    record.coco_class = "Commercial Taxi"
+                    record.coco_class = "Taxi"
                 elif record.coco_class in ["Truck", "Bus"]:
-                    record.coco_class = "Commercial Vehicle"
+                    record.coco_class = "Commercial"
             elif is_green_ev_taxi:
                 if record.coco_class == "Car":
                     record.coco_class = "EV Taxi"
@@ -844,7 +828,15 @@ class HierarchicalDetector:
                 if record.coco_class == "Car":
                     record.coco_class = "EV (Private)"
 
-            if record.coco_class in ["Truck", "Bus", "Commercial Vehicle"]:
+            # ── Bus/Truck heuristic ──
+            # Buses tend to be wider and taller than trucks
+            if record.coco_class == "Truck":
+                if bbox_aspect > 1.4 and (y2 - y1) > h_frame * 0.3:
+                    record.coco_class = "Bus"
+                elif rel_size > 0.15 and bbox_aspect > 1.2:
+                    record.coco_class = "Bus"
+
+            if record.coco_class in ["Truck", "Bus", "Commercial"]:
                 if rel_size < 0.10:
                     if bbox_aspect > 1.3:
                         record.coco_class = "3-Wheeler"
@@ -857,7 +849,12 @@ class HierarchicalDetector:
             self._track_history[int(tid)] = record
             records.append(record)
 
+        if self._frame_idx % 100 == 0:
+            print(f"[ARG] Progress: {self._frame_idx} frames processed...")
+        self._frame_idx += 1
+
         return self._render(frame.copy(), records), records
+
 
     def _render(self, frame: np.ndarray, records: list) -> np.ndarray:
         for rec in records:
@@ -1363,8 +1360,9 @@ def main():
         csv_path           = args.csv,
         vehicle_conf       = args.vehicle_conf,
         subcomp_conf       = args.subcomp_conf,
-        use_gdino          = args.auto_label or (not os.path.exists(args.subcomp_model))
+        use_gdino          = True   # Force GDINO for sub-components
     )
+
     detector.duration = args.duration
 
     if args.annotate:

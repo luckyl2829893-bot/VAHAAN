@@ -10,159 +10,247 @@ class SentinelMind extends StatefulWidget {
 }
 
 class _SentinelMindState extends State<SentinelMind> {
-  double _multiplierSensitivity = 1.0;
+  double stabilityIndex = 99.4;
+  bool isGrading = false;
+  int currentImageIndex = 1;
+  int totalImages = 463;
+  
+  // Input Controllers for the Lab
+  final plateController = TextEditingController(text: "DL 8C AD 1234");
+  final modelController = TextEditingController(text: "Mercedes G-Class");
+  final brandController = TextEditingController(text: "Mercedes-Benz");
+
+  void _syncToNeuralMemory() async {
+    // Show self-learning effect
+    if(mounted) {
+       ScaffoldMessenger.of(context).showSnackBar(
+         const SnackBar(
+           backgroundColor: ARGTheme.harmonyTeal,
+           content: Text("AI ACCOUNTABILITY SYNCED: NEURAL RETRAINING TRIGGERED.", style: TextStyle(fontWeight: FontWeight.bold)),
+         )
+       );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ARGTheme.darkBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('SENTINEL MIND', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 2)),
+        title: Text(isGrading ? 'AI ACCOUNTABILITY LAB' : 'SENTINEL CORE COMMAND', style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildSystemHealth(),
+            if (!isGrading) ...[
+                _buildStabilityMonitor(),
+                const SizedBox(height: 32),
+                _buildMainAnnotationLoop(),
+            ] else ...[
+                _buildInteractiveAILab(),
+            ],
             const SizedBox(height: 32),
-            _buildRetrainingQueue(),
-            const SizedBox(height: 32),
-            _buildEconomicConfig(),
-            const SizedBox(height: 32),
-            _buildCommunityTasking(),
+            _buildSystemInfrastructure(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildCommunityTasking() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('COMMUNITY ANNOTATION ENGINE', style: TextStyle(color: ARGTheme.successGreen, fontWeight: FontWeight.bold, fontSize: 12)),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(color: ARGTheme.surface, borderRadius: BorderRadius.circular(24)),
-          child: Column(
-            children: [
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Active Bounty Tasks', style: TextStyle(color: Colors.white70)),
-                  Text('42 Active Citizens', style: TextStyle(color: ARGTheme.primaryBlue, fontSize: 10)),
-                ],
+  Widget _buildInteractiveAILab() {
+      return Column(
+          children: [
+              // --- IMAGE CAROUSEL & NAVIGATOR ---
+              Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(color: Theme.of(context).cardTheme.color, borderRadius: BorderRadius.circular(32), border: Border.all(color: ARGTheme.meritGold)),
+                  child: Column(
+                      children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                  IconButton(onPressed: () => setState(() => currentImageIndex--), icon: const Icon(Icons.arrow_back_ios_new_rounded)),
+                                  Text("IMAGE $currentImageIndex / $totalImages", style: const TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+                                  IconButton(onPressed: () => setState(() => currentImageIndex++), icon: const Icon(Icons.arrow_forward_ios_rounded)),
+                              ],
+                          ),
+                          const SizedBox(height: 20),
+                          ClipRRect(
+                              borderRadius: BorderRadius.circular(16),
+                              child: Image.network(
+                                  'https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?auto=format&fit=crop&q=80&w=2069',
+                                  height: 180, width: double.infinity, fit: BoxFit.cover,
+                              ),
+                          ),
+                      ],
+                  ),
+              ).animate().slideY(begin: 0.1),
+              
+              const SizedBox(height: 24),
+              
+              // --- DUAL-INPUT VALIDATION FORM ---
+              Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                      Expanded(child: _buildValidationForm("HUMAN INPUT", Colors.white)),
+                      const SizedBox(width: 16),
+                      Expanded(child: _buildValidationForm("AI PREDICTION", ARGTheme.harmonyTeal.withOpacity(0.5))),
+                  ],
               ),
-              const SizedBox(height: 16),
-              ElevatedButton.icon(
-                onPressed: () {},
-                icon: const Icon(Icons.shuffle_rounded),
-                label: const Text('PUSH NEW IMAGE BATCH'),
-                style: ElevatedButton.styleFrom(backgroundColor: ARGTheme.primaryBlue.withOpacity(0.1), foregroundColor: ARGTheme.primaryBlue),
+              
+              const SizedBox(height: 32),
+              
+              Row(
+                  children: [
+                      Expanded(child: OutlinedButton(onPressed: () => setState(() => isGrading = false), child: const Text("CLOSE LAB"))),
+                      const SizedBox(width: 16),
+                      Expanded(child: ElevatedButton(
+                          onPressed: _syncToNeuralMemory, 
+                          style: ElevatedButton.styleFrom(backgroundColor: ARGTheme.harmonyTeal),
+                          child: const Text("SYNC & RETRAIN AI", style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                      )),
+                  ],
               ),
-            ],
-          ),
-        ),
-      ],
-    ).animate().fadeIn(delay: 1.seconds);
+          ],
+      );
   }
 
-  Widget _buildSystemHealth() {
+  Widget _buildValidationForm(String label, Color color) {
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+              Text(label, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 10, color: color)),
+              const SizedBox(height: 12),
+              _buildSmallField("PLATE", plateController),
+              const SizedBox(height: 8),
+              _buildSmallField("MODEL", modelController),
+              const SizedBox(height: 8),
+              _buildSmallField("BRAND", brandController),
+          ],
+      );
+  }
+
+  Widget _buildSmallField(String hint, TextEditingController controller) {
+      return Container(
+          decoration: BoxDecoration(color: Colors.white.withOpacity(0.02), borderRadius: BorderRadius.circular(12), border: Border.all(color: Colors.white10)),
+          child: TextField(
+              controller: controller,
+              style: const TextStyle(fontSize: 12),
+              decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  hintText: hint,
+                  border: InputBorder.none,
+              ),
+          ),
+      );
+  }
+
+  Widget _buildStabilityMonitor() {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: ARGTheme.surface,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: BorderRadius.circular(32),
+        border: Border.all(color: ARGTheme.harmonyTeal.withOpacity(0.3), width: 2),
       ),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text('System Cognitive Health', style: TextStyle(fontWeight: FontWeight.bold)),
-              const Text('99.9%', style: TextStyle(color: ARGTheme.successGreen, fontWeight: FontWeight.bold)),
-            ],
-          ),
-          const SizedBox(height: 16),
-          LinearProgressIndicator(value: 0.999, backgroundColor: Colors.white10, color: ARGTheme.successGreen, borderRadius: BorderRadius.circular(10), minHeight: 8),
+            Row(
+                children: [
+                    const Icon(Icons.balance_rounded, color: ARGTheme.harmonyTeal, size: 20),
+                    const SizedBox(width: 12),
+                    Text('SOCIAL STABILITY INDEX', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 12, letterSpacing: 2)),
+                ],
+            ),
+            const SizedBox(height: 16),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                    Text("${stabilityIndex}%", style: TextStyle(fontSize: 48, fontWeight: FontWeight.w900, color: ARGTheme.harmonyTeal)),
+                    const Text("EQUITY STABLE", style: TextStyle(color: ARGTheme.ghpGreen, fontWeight: FontWeight.bold, fontSize: 10)),
+                ],
+            ),
         ],
       ),
     ).animate().fadeIn();
   }
 
-  Widget _buildRetrainingQueue() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('AI RETRAINING QUEUE (CLEANING)', style: TextStyle(color: ARGTheme.primaryBlue, fontWeight: FontWeight.bold, fontSize: 12)),
-        const SizedBox(height: 16),
-        SizedBox(
-          height: 120,
-          child: ListView(
-            scrollDirection: Axis.horizontal,
-            children: [
-              _buildCleanableItem("Car? Low Conf", "DL 3C AB 1234"),
-              _buildCleanableItem("Brand? 65%", "UP 16 AX 9988"),
-              _buildCleanableItem("Night Scan", "HR 26 DA 1122"),
-            ],
-          ),
-        ),
-      ],
-    ).animate().fadeIn(delay: 400.ms);
+  Widget _buildMainAnnotationLoop() {
+      return Column(
+          children: [
+              _buildDispatchCard(),
+              const SizedBox(height: 16),
+              _buildGradingWorkCard(),
+          ],
+      ).animate().fadeIn();
   }
 
-  Widget _buildCleanableItem(String issue, String plate) {
+  Widget _buildDispatchCard() {
     return Container(
-      width: 150,
-      margin: const EdgeInsets.only(right: 16),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(color: Theme.of(context).cardTheme.color, borderRadius: BorderRadius.circular(24), border: Border.all(color: ARGTheme.electricBlue.withOpacity(0.2))),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(Icons.psychology_rounded, color: Colors.white30),
-          const SizedBox(height: 8),
-          Text(issue, style: const TextStyle(fontSize: 10, color: Colors.white70)),
-          Text(plate, style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text("BATCH DISPATCH", style: TextStyle(fontWeight: FontWeight.bold)),
+              Icon(Icons.cloud_upload_rounded, color: ARGTheme.electricBlue),
+          ]),
+          const SizedBox(height: 16),
+          ElevatedButton(
+            onPressed: () {},
+            child: const Text("PUSH DATA BATCH TO CITIZENS"),
+          ),
         ],
       ),
     );
   }
 
-  Widget _buildEconomicConfig() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('WEALTH MULTIPLIER LOGIC', style: TextStyle(color: ARGTheme.accentAmber, fontWeight: FontWeight.bold, fontSize: 12)),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(color: ARGTheme.surface, borderRadius: BorderRadius.circular(24)),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text('Equity Sensitivity', style: TextStyle(color: Colors.white70)),
-                  Text('${_multiplierSensitivity.toStringAsFixed(1)}x', style: const TextStyle(color: ARGTheme.accentAmber, fontWeight: FontWeight.bold)),
-                ],
-              ),
-              Slider(
-                value: _multiplierSensitivity,
-                min: 0.5,
-                max: 5.0,
-                activeColor: ARGTheme.accentAmber,
-                onChanged: (val) => setState(() => _multiplierSensitivity = val),
-              ),
-              const Text('higher sensitivity increases fine disparity between luxury and economy vehicles.', style: TextStyle(color: Colors.white24, fontSize: 10), textAlign: TextAlign.center),
-            ],
+  Widget _buildGradingWorkCard() {
+     return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(color: Theme.of(context).cardTheme.color, borderRadius: BorderRadius.circular(24), border: Border.all(color: ARGTheme.meritGold.withOpacity(0.2))),
+      child: Column(
+        children: [
+          const Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Text("GRADING WORKSPACE", style: TextStyle(fontWeight: FontWeight.bold)),
+              Icon(Icons.edit_note_rounded, color: ARGTheme.meritGold),
+          ]),
+          const SizedBox(height: 12),
+          const Text("Images awaiting accountability cross-check.", style: TextStyle(fontSize: 10, color: Colors.grey)),
+          const SizedBox(height: 16),
+          OutlinedButton(
+            onPressed: () => setState(() => isGrading = true),
+            style: OutlinedButton.styleFrom(side: const BorderSide(color: ARGTheme.meritGold)),
+            child: const Text("OPEN AI ACCOUNTABILITY LAB", style: TextStyle(color: ARGTheme.meritGold)),
           ),
-        ),
-      ],
-    ).animate().fadeIn(delay: 800.ms);
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSystemInfrastructure() {
+      return Row(
+          children: [
+              Expanded(child: _buildSmallInfo("Teacher Precision", "99.9%", ARGTheme.harmonyTeal)),
+              const SizedBox(width: 12),
+              Expanded(child: _buildSmallInfo("Auto-Retrain Status", "Ready", ARGTheme.primaryBlue)),
+          ],
+      ).animate().fadeIn();
+  }
+
+  Widget _buildSmallInfo(String label, String value, Color color) {
+      return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(color: Theme.of(context).cardTheme.color, borderRadius: BorderRadius.circular(20)),
+          child: Column(
+              children: [
+                  Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+                  Text(value, style: TextStyle(fontWeight: FontWeight.bold, color: color)),
+              ],
+          ),
+      );
   }
 }

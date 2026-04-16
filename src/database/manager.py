@@ -131,6 +131,7 @@ class DBManager:
                 phone_masked    VARCHAR(50),
                 pan_number      VARCHAR(50),
                 cibil_score     INTEGER,
+                good_human_points INTEGER DEFAULT 1000,
                 kyc_status      VARCHAR(50) DEFAULT 'Full KYC',
                 created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
             )
@@ -240,9 +241,22 @@ class DBManager:
                 contact_no      VARCHAR(20) UNIQUE NOT NULL,
                 professional_id VARCHAR(100),
                 role            VARCHAR(50) DEFAULT 'Citizen',
+                promotions      INT DEFAULT 0,
+                red_cards       INT DEFAULT 0,
+                warnings        INT DEFAULT 0,
                 face_encoding   BLOB,
                 profile_image   TEXT,
                 created_at      DATETIME DEFAULT CURRENT_TIMESTAMP
+            )
+        """)
+
+        # Sentinel AI: Sentience & Harmony Logic
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS sentience_harmony (
+                id                INT AUTO_INCREMENT PRIMARY KEY,
+                harmony_index     DOUBLE DEFAULT 100.0,
+                justice_precision DOUBLE DEFAULT 100.0,
+                last_audit        DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         """)
 

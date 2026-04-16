@@ -1,159 +1,182 @@
 import 'package:flutter/material.dart';
 import '../core/theme.dart';
+import '../screens/dev_portal.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Mock user data - in real app, fetch from session/provider
-    const userName = "Slasher";
-    const userRole = "Sentinel (Highest Admin)";
-    const clearance = "Level 5 - Overlord";
-    const contact = "+91 99999 99999";
-    const profId = "ARG-SENTINEL-001";
+    // Mock user data - Syncing with new Social Merit Logic
+    const userName = "Slasher (Sentinel)";
+    const goodHumanPoints = 985;
+    const promotions = 12;
+    const redCards = 0;
+    const harmonyIndex = 99.4;
+    
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Scaffold(
-      backgroundColor: ARGTheme.darkBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('Admin Command Profile'),
+        title: Text('Identity Node', style: Theme.of(context).textTheme.titleLarge),
         backgroundColor: Colors.transparent,
         elevation: 0,
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 16),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-            decoration: BoxDecoration(
-              color: Colors.red.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(color: Colors.red.withOpacity(0.5)),
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.gpp_maybe_rounded, color: Colors.redAccent, size: 14),
-                SizedBox(width: 4),
-                Text('SENSITIVE ACCESS', style: TextStyle(color: Colors.redAccent, fontSize: 10, fontWeight: FontWeight.bold)),
-              ],
-            ),
-          ),
-        ],
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           children: [
-            Stack(
-              alignment: Alignment.bottomRight,
+            // --- PROFILE HEADER ---
+            _buildMeritHeader(context, goodHumanPoints, harmonyIndex),
+            
+            const SizedBox(height: 30),
+            
+            // --- SOCIAL MERIT STATS (GRID) ---
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              childAspectRatio: 1.5,
               children: [
-                const CircleAvatar(
-                  radius: 60,
-                  backgroundColor: ARGTheme.primaryBlue,
-                  child: Icon(Icons.security_rounded, size: 70, color: Colors.white),
-                ),
-                Container(
-                  padding: const EdgeInsets.all(4),
-                  decoration: const BoxDecoration(color: ARGTheme.successGreen, shape: BoxShape.circle),
-                  child: const Icon(Icons.verified_user_rounded, color: Colors.white, size: 20),
-                ),
+                _buildStatCard(context, "Promotions", promotions.toString(), ARGTheme.meritGold, Icons.trending_up),
+                _buildStatCard(context, "Red Cards", redCards.toString(), ARGTheme.redCard, Icons.warning_amber_rounded),
               ],
             ),
-            const SizedBox(height: 20),
-            Text(userName, style: const TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white)),
-            Text(userRole, style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, letterSpacing: 1.5)),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.05), borderRadius: BorderRadius.circular(20)),
-              child: Text(clearance, style: const TextStyle(color: Colors.white70, fontSize: 12)),
-            ),
-            const SizedBox(height: 40),
             
-            _buildInfoCard(context, 'Contact', contact, Icons.phone_rounded),
-            _buildInfoCard(context, 'Professional ID', profId, Icons.badge_rounded),
+            const SizedBox(height: 24),
+            
+            // --- GOOD HUMAN POINTS (PUNCHY CARD) ---
+            _buildGHPCard(context, goodHumanPoints),
             
             const SizedBox(height: 40),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text('MY CERTIFICATES', style: TextStyle(color: Colors.white60, fontWeight: FontWeight.bold, fontSize: 12)),
-            ),
-            const SizedBox(height: 16),
             
-            _buildCertificateCard(
-              context, 
-              'Road Safety Expert', 
-              'MLP Bootcamp • 2026', 
-              'assets/certificate.jpg' // Assuming the image is synced to assets
-            ),
+            // --- SETTINGS / INFO ---
+            _buildActionTile(context, "Aadhaar Linked", "Verified (Sentinel Access)", Icons.fingerprint, ARGTheme.ghpGreen),
+            _buildActionTile(context, "System Harmony", "${harmonyIndex}% Integrity", Icons.auto_awesome_rounded, ARGTheme.harmonyTeal),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildInfoCard(BuildContext context, String label, String value, IconData icon) {
+  Widget _buildMeritHeader(BuildContext context, int ghp, double harmony) {
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(4),
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                gradient: LinearGradient(colors: [ARGTheme.ghpGreen, ARGTheme.harmonyTeal]),
+              ),
+              child: const CircleAvatar(
+                radius: 64,
+                backgroundColor: ARGTheme.darkBg,
+                child: Icon(Icons.security_rounded, size: 70, color: Colors.white),
+              ),
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: ARGTheme.meritGold,
+                borderRadius: BorderRadius.circular(20),
+                boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 8)],
+              ),
+              child: const Text('OVERLORD', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 10)),
+            ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        Text("Slasher", style: Theme.of(context).textTheme.displayLarge),
+        Text("SENTINEL AI OPERATOR", style: TextStyle(color: ARGTheme.harmonyTeal.withOpacity(0.8), fontWeight: FontWeight.w900, letterSpacing: 2)),
+      ],
+    );
+  }
+
+  Widget _buildStatCard(BuildContext context, String title, String value, Color color, IconData icon) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.05),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white10),
+        color: Theme.of(context).cardTheme.color,
+        borderRadius: BorderRadius.circular(24),
+        border: Border.all(color: color.withOpacity(0.2), width: 2),
+        boxShadow: [
+          BoxShadow(color: color.withOpacity(0.1), blurRadius: 10, offset: const Offset(0, 4))
+        ],
       ),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, color: ARGTheme.primaryBlue),
-          const SizedBox(width: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: const TextStyle(color: Colors.white54, fontSize: 12)),
-              Text(value, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-            ],
-          ),
+            Icon(icon, color: color, size: 20),
+            const SizedBox(height: 8),
+            Text(value, style: TextStyle(fontSize: 24, fontWeight: FontWeight.w900, color: color)),
+            Text(title, style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodySmall?.color?.withOpacity(0.5))),
         ],
       ),
     );
   }
 
-  Widget _buildCertificateCard(BuildContext context, String title, String issuer, String imagePath) {
+  Widget _buildGHPCard(BuildContext context, int points) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        gradient: LinearGradient(colors: [ARGTheme.primaryBlue.withOpacity(0.2), Colors.transparent]),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: ARGTheme.primaryBlue.withOpacity(0.3)),
+        gradient: LinearGradient(colors: [ARGTheme.ghpGreen.withOpacity(0.2), ARGTheme.ghpGreen.withOpacity(0.05)]),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(color: ARGTheme.ghpGreen.withOpacity(0.3)),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Icon(Icons.verified_rounded, color: ARGTheme.primaryBlue, size: 20),
-              const SizedBox(width: 8),
-              Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.white)),
+              const Text("GOOD HUMAN POINTS", style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1)),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: ARGTheme.ghpGreen, borderRadius: BorderRadius.circular(12)),
+                child: Text("${points} GHP", style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12)),
+              ),
             ],
           ),
-          const SizedBox(height: 4),
-          Text(issuer, style: const TextStyle(color: Colors.white54, fontSize: 12)),
-          const SizedBox(height: 16),
-          // Certificate Preview Simulation
-          Container(
-            height: 120,
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: Colors.black26,
-              borderRadius: BorderRadius.circular(12),
-              image: const DecorationImage(
-                image: NetworkImage('https://images.unsplash.com/photo-1546410531-bb4caa6b424d?auto=format&fit=crop&q=80&w=2071&ixlib=rb-4.0.3'),
-                fit: BoxFit.cover,
-                opacity: 0.5,
-              ),
+          const SizedBox(height: 20),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(
+              value: points / 1000,
+              minHeight: 12,
+              backgroundColor: Colors.white.withOpacity(0.1),
+              valueColor: const AlwaysStoppedAnimation(ARGTheme.ghpGreen),
             ),
-            child: const Center(child: Icon(Icons.remove_red_eye_rounded, color: Colors.white70)),
           ),
+          const SizedBox(height: 12),
+          const Text("You are in the Top 1% of citizens. Keep up the high merit!", style: TextStyle(fontSize: 12, color: Colors.grey)),
         ],
       ),
+    );
+  }
+
+  Widget _buildActionTile(BuildContext context, String title, String subtitle, IconData icon, Color color) {
+    return Column(
+        children: [
+            ListTile(
+              leading: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(color: color.withOpacity(0.1), shape: BoxShape.circle),
+                child: Icon(icon, color: color),
+              ),
+              title: Text(title, style: const TextStyle(fontWeight: FontWeight.bold)),
+              subtitle: Text(subtitle, style: const TextStyle(fontSize: 12)),
+              trailing: const Icon(Icons.chevron_right_rounded),
+            ),
+            Divider(color: Colors.grey.withOpacity(0.1), indent: 70),
+        ],
     );
   }
 }

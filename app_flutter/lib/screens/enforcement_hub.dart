@@ -11,213 +11,154 @@ class EnforcementHub extends StatefulWidget {
 
 class _EnforcementHubState extends State<EnforcementHub> {
   String? _detectedPlate;
-  String? _detectedModel;
-  double _baseFine = 500;
-  double _wealthMultiplier = 1.0;
   bool _isScanning = false;
 
-  void _simulateScan() async {
-    setState(() => _isScanning = true);
-    await Future.delayed(2.seconds);
-    setState(() {
-      _detectedPlate = "DL 8C AD 5566";
-      _detectedModel = "Mercedes-Benz G-Class";
-      _wealthMultiplier = 8.5; // High wealth multiplier for expensive car
-      _isScanning = false;
-    });
-  }
+  // Mock Performance Data
+  int flaggedCount = 142;
+  int challansIssued = 89;
+  double promoProbability = 0.72; // 72%
+  
+  // Status: 0=Red, 1=Orange, 2=Yellow, 3=Green
+  int integrityStatus = 2; 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ARGTheme.darkBg,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        title: const Text('ENFORCEMENT HUB', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, letterSpacing: 2)),
+        title: Text('ENFORCEMENT COMMAND', style: Theme.of(context).textTheme.titleLarge),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildScannerSection(),
+            // --- PERFORMANCE HUB (TRENDS) ---
+            _buildPerformanceGrid(),
             const SizedBox(height: 32),
-            if (_detectedPlate == null) _buildPatrolIntelligence(),
-            if (_detectedPlate != null) _buildChallanCalculator(),
+            
+            // --- PROMOTION VELOCITY ---
+            _buildPromotionTracker(),
+            const SizedBox(height: 32),
+            
+            // --- INTEGRITY STATUS & DIRECTIVES ---
+            _buildIntegrityGauge(),
+            if (integrityStatus < 3) _buildDirectives(),
+            
+            const SizedBox(height: 32),
+            _buildScannerSection(),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildPatrolIntelligence() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildPerformanceGrid() {
+    return Row(
       children: [
-        const Text('PATROL INTELLIGENCE', style: TextStyle(color: ARGTheme.primaryBlue, fontWeight: FontWeight.bold, fontSize: 12)),
-        const SizedBox(height: 16),
-        Container(
-          height: 150,
-          decoration: BoxDecoration(
-            color: ARGTheme.surface,
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: Colors.white.withOpacity(0.05)),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(Icons.map_rounded, color: Colors.white10, size: 50),
-              const SizedBox(height: 8),
-              const Text('LIVE VIOLATION HEATMAP', style: TextStyle(color: Colors.white60, fontSize: 12)),
-              const Text('High Activity: Sector 45', style: TextStyle(color: Colors.redAccent, fontSize: 10, fontWeight: FontWeight.bold)),
-            ],
-          ),
-        ),
-        const SizedBox(height: 24),
-        const Text('CRITICAL WANTED LIST', style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 12)),
-        const SizedBox(height: 12),
-        _buildWantedItem("HR 26 DA 9900", "Hit & Run Suspect", Colors.redAccent),
-        _buildWantedItem("DL 8C BA 1212", "Stolen Vehicle", Colors.orangeAccent),
+        Expanded(child: _buildMetricCard("Flagged Vehicles", flaggedCount.toString(), "+12% Weekly", Icons.radar_rounded)),
+        const SizedBox(width: 16),
+        Expanded(child: _buildMetricCard("Challans Issued", challansIssued.toString(), "+5% Monthly", Icons.receipt_long_rounded)),
       ],
-    ).animate().fadeIn(delay: 400.ms);
+    ).animate().fadeIn();
   }
 
-  Widget _buildWantedItem(String plate, String reason, Color color) {
+  Widget _buildMetricCard(String label, String val, String trend, IconData icon) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.03), borderRadius: BorderRadius.circular(16)),
-      child: Row(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(color: Theme.of(context).cardTheme.color, borderRadius: BorderRadius.circular(24), border: Border.all(color: Colors.white.withOpacity(0.05))),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(Icons.warning_rounded, color: color, size: 16),
-          const SizedBox(width: 12),
-          Text(plate, style: const TextStyle(fontWeight: FontWeight.bold)),
-          const Spacer(),
-          Text(reason, style: TextStyle(color: color.withOpacity(0.7), fontSize: 11)),
+            Icon(icon, color: ARGTheme.primaryBlue, size: 20),
+            const SizedBox(height: 12),
+            Text(val, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.w900)),
+            Text(label, style: const TextStyle(fontSize: 10, color: Colors.grey)),
+            const SizedBox(height: 8),
+            Text(trend, style: const TextStyle(color: ARGTheme.ghpGreen, fontSize: 10, fontWeight: FontWeight.bold)),
         ],
       ),
     );
   }
 
+  Widget _buildPromotionTracker() {
+    return Container(
+      padding: const EdgeInsets.all(24),
+      decoration: BoxDecoration(color: Theme.of(context).cardTheme.color, borderRadius: BorderRadius.circular(28), border: Border.all(color: ARGTheme.meritGold.withOpacity(0.3))),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+                const Text("PROMOTION PROBABILITY", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1)),
+                Text("${(promoProbability * 100).toInt()}%", style: const TextStyle(color: ARGTheme.meritGold, fontWeight: FontWeight.w900, fontSize: 18)),
+            ],
+          ),
+          const SizedBox(height: 16),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10),
+            child: LinearProgressIndicator(value: promoProbability, minHeight: 10, backgroundColor: Colors.white10, valueColor: const AlwaysStoppedAnimation(ARGTheme.meritGold)),
+          ),
+          const SizedBox(height: 12),
+          const Text("High probability for next Rank. Keep patrol volume steady.", style: TextStyle(fontSize: 10, color: Colors.grey)),
+        ],
+      ),
+    ).animate().fadeIn(delay: 200.ms);
+  }
+
+  Widget _buildIntegrityGauge() {
+    final List<Color> colors = [ARGTheme.redCard, Colors.orangeAccent, Colors.amber, ARGTheme.ghpGreen];
+    final List<String> statusNames = ["DANGER", "WARNING", "CAUTION", "ELITE"];
+    
+    return Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+            color: colors[integrityStatus].withOpacity(0.05),
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: colors[integrityStatus].withOpacity(0.2)),
+        ),
+        child: Row(
+            children: [
+                Icon(Icons.shield_rounded, color: colors[integrityStatus]),
+                const SizedBox(width: 16),
+                Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                        const Text("INTEGRITY STATUS", style: TextStyle(fontSize: 10, color: Colors.grey)),
+                        Text(statusNames[integrityStatus], style: TextStyle(color: colors[integrityStatus], fontWeight: FontWeight.w900, fontSize: 18)),
+                    ],
+                ),
+            ],
+        ),
+    );
+  }
+
+  Widget _buildDirectives() {
+      return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(color: Colors.white.withOpacity(0.03), borderRadius: BorderRadius.circular(20)),
+          child: const Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                  Text("REHABILITATION DIRECTIVE", style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold, fontSize: 10)),
+                  SizedBox(height: 8),
+                  Text("• Your integrity is below Elite (Green).", style: TextStyle(fontSize: 12)),
+                  Text("• Resolve 5 pending community reports to restore health.", style: TextStyle(fontSize: 12, color: Colors.grey)),
+              ],
+          ),
+      ).animate().shake();
+  }
+
   Widget _buildScannerSection() {
     return Container(
-      height: 250,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(32),
-        border: Border.all(color: ARGTheme.primaryBlue.withOpacity(0.3)),
+      height: 120,
+      decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(24), border: Border.all(color: ARGTheme.electricBlue.withOpacity(0.3))),
+      child: Center(
+        child: ElevatedButton.icon(onPressed: () {}, icon: const Icon(Icons.qr_code_scanner_rounded), label: const Text("LAUNCH PLATE SCANNER")),
       ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(30),
-        child: Stack(
-          fit: StackFit.expand,
-          children: [
-            _isScanning 
-              ? const Center(child: CircularProgressIndicator(color: ARGTheme.primaryBlue))
-              : Center(child: Icon(Icons.qr_code_scanner_rounded, color: Colors.white10, size: 80)),
-            
-            Positioned(
-              bottom: 20,
-              left: 40, right: 40,
-              child: ElevatedButton.icon(
-                onPressed: _isScanning ? null : _simulateScan,
-                icon: const Icon(Icons.camera_alt_rounded),
-                label: const Text('SCAN VEHICLE PLATE'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ARGTheme.primaryBlue,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildChallanCalculator() {
-    double totalFine = _baseFine * _wealthMultiplier;
-    
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text('AI DETECTION RESULTS', style: TextStyle(color: ARGTheme.primaryBlue, fontWeight: FontWeight.bold, fontSize: 12)),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(color: ARGTheme.surface, borderRadius: BorderRadius.circular(24)),
-          child: Column(
-            children: [
-              _buildResultRow("Plate Number", _detectedPlate!, Icons.badge_rounded),
-              const Divider(color: Colors.white10, height: 32),
-              _buildResultRow("Vehicle Model", _detectedModel!, Icons.directions_car_rounded, isEditable: true),
-              const Divider(color: Colors.white10, height: 32),
-              _buildResultRow("Wealth Multiplier", "x${_wealthMultiplier.toStringAsFixed(1)}", Icons.trending_up_rounded),
-            ],
-          ),
-        ),
-        const SizedBox(height: 32),
-        const Text('EQUITY-BASED FINE CALCULATION', style: TextStyle(color: ARGTheme.successGreen, fontWeight: FontWeight.bold, fontSize: 12)),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [ARGTheme.successGreen.withOpacity(0.1), Colors.transparent]),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: ARGTheme.successGreen.withOpacity(0.2)),
-          ),
-          child: Column(
-            children: [
-              _buildFineRow("Base Violation Fine", "₹${_baseFine.toInt()}"),
-              const SizedBox(height: 12),
-              _buildFineRow("Wealth Adjustment", "x${_wealthMultiplier.toStringAsFixed(1)}"),
-              const Divider(color: Colors.white10, height: 24),
-              _buildFineRow("TOTAL CHALLAN", "₹${totalFine.toInt()}", isTotal: true),
-            ],
-          ),
-        ),
-        const SizedBox(height: 32),
-        ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            backgroundColor: ARGTheme.successGreen,
-            foregroundColor: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 20),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-          ),
-          child: const Center(child: Text('ISSUE SMART CHALLAN', style: TextStyle(fontWeight: FontWeight.bold))),
-        ),
-      ],
-    ).animate().fadeIn().slideY(begin: 0.1);
-  }
-
-  Widget _buildResultRow(String label, String value, IconData icon, {bool isEditable = false}) {
-    return Row(
-      children: [
-        Icon(icon, color: Colors.white30, size: 20),
-        const SizedBox(width: 16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(label, style: const TextStyle(color: Colors.white30, fontSize: 11)),
-              Text(value, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
-            ],
-          ),
-        ),
-        if (isEditable) const Icon(Icons.edit_note_rounded, color: ARGTheme.primaryBlue),
-      ],
-    );
-  }
-
-  Widget _buildFineRow(String label, String value, {bool isTotal = false}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(label, style: TextStyle(color: isTotal ? Colors.white : Colors.white60, fontWeight: isTotal ? FontWeight.bold : FontWeight.normal)),
-        Text(value, style: TextStyle(color: isTotal ? ARGTheme.successGreen : Colors.white, fontSize: isTotal ? 24 : 16, fontWeight: FontWeight.bold)),
-      ],
     );
   }
 }

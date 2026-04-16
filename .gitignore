@@ -26,6 +26,14 @@ __pycache__/
 *.7z
 
 # Data Directories (Heavily restricted)
+data/
+models/
+scratch/
+annotation_staging/
+label_verification/
+label_verification_stage2/
+rules for no plates/
+backup/
 images/
 plate_dataset/
 vehicle_dataset/
@@ -37,6 +45,7 @@ data_csv/
 data_pipeline/train/
 data_pipeline/incoming_plates/
 test_images_outputs/
+test_outputs/
 videos_structured/
 runs/
 

@@ -10,6 +10,7 @@ import '../screens/profile_screen.dart';
 import '../screens/wealth_compass_screen.dart';
 import '../screens/report_screen.dart';
 import '../screens/vault_screen.dart';
+import '../screens/dev_portal.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/home',
@@ -57,6 +58,10 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/vault',
       builder: (context, state) => const VaultScreen(),
+    ),
+    GoRoute(
+      path: '/dev',
+      builder: (context, state) => const DevPortal(),
     ),
   ],
 );
