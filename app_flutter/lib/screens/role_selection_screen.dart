@@ -22,7 +22,7 @@ class RoleSelectionScreen extends StatelessWidget {
               ).animate().fadeIn().slideX(begin: -0.2),
               const SizedBox(height: 8),
               Text(
-                'Choose your role in the Aequitas ecosystem.',
+                'Choose your role in the VAHAAN ecosystem.',
                 style: Theme.of(context).textTheme.bodyLarge,
               ).animate().fadeIn(delay: 200.ms).slideX(begin: -0.2),
               const SizedBox(height: 48),

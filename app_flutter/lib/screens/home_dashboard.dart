@@ -111,7 +111,7 @@ class HomeDashboard extends StatelessWidget {
       flexibleSpace: FlexibleSpaceBar(
         title: GestureDetector(
           onLongPress: () => context.push('/dev'),
-          child: Text('ROADGUARD | HQ', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 14, letterSpacing: 3)),
+          child: Text('VAHAAN | HQ', style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 14, letterSpacing: 3)),
         ),
         centerTitle: true,
       ),

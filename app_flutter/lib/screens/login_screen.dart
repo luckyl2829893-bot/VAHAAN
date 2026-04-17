@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   .scale(duration: 600.ms, curve: Curves.bounceOut),
               const SizedBox(height: 24),
               Text(
-                'Aequitas RoadGuard',
+                'VAHAAN',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
                       fontWeight: FontWeight.bold,

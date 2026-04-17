@@ -62,7 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
             const SizedBox(height: 24),
             
             Text(
-              'AEQUITAS',
+              'VAHAAN',
               style: Theme.of(context).textTheme.displayLarge?.copyWith(
                 letterSpacing: 4,
                 color: Colors.white,
@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen> {
             .slideY(begin: 0.2, end: 0),
             
             Text(
-              'ROADGUARD',
+              'VAHAAN',
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                 letterSpacing: 8,
                 color: ARGTheme.primaryBlue,

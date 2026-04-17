@@ -6,11 +6,11 @@ import 'core/router.dart';
 final ValueNotifier<ThemeMode> themeNotifier = ValueNotifier(ThemeMode.dark);
 
 void main() {
-  runApp(const AequitasRoadGuard());
+  runApp(const VAHAANVAHAAN());
 }
 
-class AequitasRoadGuard extends StatelessWidget {
-  const AequitasRoadGuard({super.key});
+class VAHAANVAHAAN extends StatelessWidget {
+  const VAHAANVAHAAN({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class AequitasRoadGuard extends StatelessWidget {
       valueListenable: themeNotifier,
       builder: (_, ThemeMode currentMode, __) {
         return MaterialApp.router(
-          title: 'Aequitas RoadGuard',
+          title: 'VAHAAN',
           debugShowCheckedModeBanner: false,
           theme: ARGTheme.lightTheme,
           darkTheme: ARGTheme.darkTheme,

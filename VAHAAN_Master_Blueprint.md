@@ -1,7 +1,7 @@
-<!-- # Aequitas RoadGuard (ARG): System Architecture & Master Blueprint
+<!-- # VAHAAN: System Architecture & Master Blueprint
 
 ## 1. The Core Philosophy
-Current traffic enforcement uses flat-rate fines that act as a "price of admission" for the wealthy while crippling low-income workers. **Aequitas RoadGuard (ARG)** is a decentralized, AI-driven traffic management system that scales penalties based on vehicle value, automates enforcement to eliminate bribes, and crowdsources road safety.
+Current traffic enforcement uses flat-rate fines that act as a "price of admission" for the wealthy while crippling low-income workers. **VAHAAN** is a decentralized, AI-driven traffic management system that scales penalties based on vehicle value, automates enforcement to eliminate bribes, and crowdsources road safety.
 
 ---
 
@@ -53,7 +53,7 @@ The system is split into three interconnected components to ensure scalability, 
 To keep your code clean and professional, organize your project folder like this:
 
 ```text
-Aequitas_RoadGuard/
+VAHAAN/
 │
 ├── .env                        # Hidden API keys and database passwords
 ├── README.md                   # Your GitHub pitch document
@@ -160,7 +160,7 @@ Summary of the Final Vision
 You are building a system where Identity = Power. If you drive a luxury SUV and break the law, you pay more. If you are a contractor who steals budget, you are exposed. If you are a citizen with a cheap phone, you are still a part of the solution.
 
 Final Logic Note: By removing the "Roadside Bounty," you’ve made the system more culturally intelligent. You aren't punishing the citizen for the government's failure to provide parking; you are using the citizen's data to demand that parking.
-Aequitas_RoadGuard/
+VAHAAN/
 │
 ├── /cloud_backend             # The "Brain" (Remote GPU processing)
 │   ├── inference_engine.py    # YOLO logic + Wealth Multiplier
@@ -513,7 +513,7 @@ graph TD
 ## 5. Suggested Project Directory Structure
 
 ```text
-Aequitas_RoadGuard/
+VAHAAN/
 ├── .env                        # API Keys (VAHAN, FASTag, Firebase)
 ├── architecture.mermaid        # The diagram code above
 ├── /models                     # Pre-trained .pt files (YOLOv11)

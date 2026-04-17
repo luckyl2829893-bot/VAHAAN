@@ -73,7 +73,7 @@ class _DevPortalState extends State<DevPortal> {
           
           const SizedBox(height: 20),
           const Center(
-            child: Text("VERSION: 0.9.1-BETA | AEQUITAS STABLE", style: TextStyle(fontSize: 10, color: Colors.grey)),
+            child: Text("VERSION: 0.9.1-BETA | VAHAAN STABLE", style: TextStyle(fontSize: 10, color: Colors.grey)),
           ),
         ],
       ),
