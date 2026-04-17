@@ -262,3 +262,41 @@ st.info("💡 VAHAAN Solution: Implements the Wealth Multiplier to ensure the fi
 **VAHAAN** decentralizes enforcement through AI, scales penalties via vehicle valuation (Equity), and enforces institutional accountability (Contractors/Police) through transparent data auditing.
 
 ---
+
+## 8. The 3-Stage Hierarchical Vision Pipeline
+
+VAHAAN utilizes a tiered inference chain to maximize accuracy while minimizing computational waste.
+
+### Stage 1: The Gatekeeper (Vehicle Classifier)
+*   **Model**: `stage1_vahaan.pt` (Fine-tuned from `best_new.pt`)
+*   **Goal**: Detect vehicle presence and classify its type (Car, Motorcycle, Truck, Bus).
+*   **Logic**: This act as a router. If a motorcycle is detected, the ROI is sent to the Helmet Detector. If a car is detected, it is sent to the Seatbelt Detector.
+
+### Stage 2: The Identifier (Identity Sniper)
+*   **Model**: Plate Sniper + OCR
+*   **Goal**: Extract the license plate and cross-reference with VAHAN 4.0 APIs to find the owner's legal identity and vehicle valuation.
+
+### Stage 3: The Enforcer (Safety Net)
+*   **Model**: `safety_net.pt`
+*   **Goal**: Zoom into the cropped vehicle region to detect specific PPE violations:
+    *   **Motorcycles**: No Helmet, Triple Riding.
+    *   **Cars**: No Seatbelt, Mobile Phone use.
+    *   **Trucks**: Driver fatigue, over-speeding.
+
+---
+
+## 9. Infrastructure Integrity & Contractor Accountability
+
+VAHAAN expands beyond traffic fines to hold the state and its contractors accountable for road conditions.
+
+### The Pothole-Contractor Link (The Logic)
+1.  **Detection**: Parallel Pothole Net scans the road surface.
+2.  **GPS Pinpointing**: Violation is locked to exact GPS coordinates.
+3.  **Ward Mapping**: The system queries the **Delhi MCD Ward Registry** to identify the specific Ward Name (e.g., Karol Bagh, Rohini).
+4.  **Contractor Identification**: The system looks up the designated contractor responsible for that GPS zone.
+5.  **Automated Alert**: An instant alert is dispatched to the contractor's phone and the MCD supervisor.
+
+### The Fine Escalation Logic
+*   **SLA (Service Level Agreement)**: Contractors have 24h (Critical) to 14 days (Low) to repair the road.
+*   **Automatic Penalty**: If the "Resolved" flag is not set in the VAHAAN portal by the deadline, the contractor is auto-fined (₹5,000–₹50,000).
+*   **Social Proof**: Public heatmaps show which wards have the highest "Unresolved Road Decay" counts, pressuring local representatives for action.
