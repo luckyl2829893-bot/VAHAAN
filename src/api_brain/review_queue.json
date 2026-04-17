@@ -1,0 +1,171 @@
+[
+  {
+    "filename": "vlcsnap-2022-03-17-13h32m16s423_jpg.rf.af04d9ae5c0f640c1a871dca91cd0db6.jpg",
+    "human_input": {
+      "plate_readable": false,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "UP 16 CL 0001",
+      "model": "Unknown Sedan",
+      "brand": "Unknown"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "0855dff0-b172-4212-8b49-fa0d0cd43b7d_jpeg.rf.e54188114acc00006c3924309d6a1bbf.jpg",
+    "human_input": {
+      "plate_readable": true,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 2C OB 3858",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "vlcsnap-2022-03-14-12h20m33s133_jpg.rf.f166043f37171c345b22430e7834125a.jpg",
+    "human_input": {
+      "plate_readable": false,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 3C QA 6789",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "vlcsnap-2022-03-14-12h09m15s876_jpg.rf.d891978b2a5d43ae6b83f5fbee1d2d9e.jpg",
+    "human_input": {
+      "plate_readable": false,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 9C LZ 5744",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "vlcsnap-2022-03-14-12h09m15s876_jpg.rf.d891978b2a5d43ae6b83f5fbee1d2d9e.jpg",
+    "human_input": {
+      "plate_readable": false,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 9C LZ 5744",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "Studio_car_Tata_Tata_Nexon_EV_angle_01.jpg",
+    "human_input": {
+      "plate_readable": true,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 9C LJ 5832",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "Studio_car_BMW_BMW_X3_angle_11.jpg",
+    "human_input": {
+      "plate_readable": false,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 8C NX 9046",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "Generic_GJ2.jpg",
+    "human_input": {
+      "plate_readable": true,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 8C OF 4158",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "Studio_car_video3_2240.jpg",
+    "human_input": {
+      "plate_readable": true,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 1C NB 5230",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "Studio_car_video3_2240.jpg",
+    "human_input": {
+      "plate_readable": true,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 1C NB 5230",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "Studio_car_video3_2240.jpg",
+    "human_input": {
+      "plate_readable": true,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 1C NB 5230",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "bus-210-_jpg.rf.838f82dc011641ae8b4fffc3218ab6d7.jpg",
+    "human_input": {
+      "plate_readable": false,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 2C UG 3192",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  },
+  {
+    "filename": "bus-210-_jpg.rf.838f82dc011641ae8b4fffc3218ab6d7.jpg",
+    "human_input": {
+      "plate_readable": false,
+      "source": "Citizen (Mobile)"
+    },
+    "ai_prediction": {
+      "plate": "DL 2C UG 3192",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    },
+    "status": "Awaiting Sentinel Review"
+  }
+]

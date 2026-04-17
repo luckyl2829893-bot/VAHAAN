@@ -1,0 +1,416 @@
+[
+  {
+    "image_url": "/static/train/5d33ffd0-1fd3-454e-a2d4-3121dbcaae84_jpeg.rf.5598355e3f5a1f8a7fc032f180d794cc.jpg",
+    "filename": "5d33ffd0-1fd3-454e-a2d4-3121dbcaae84_jpeg.rf.5598355e3f5a1f8a7fc032f180d794cc.jpg",
+    "ai_prediction": {
+      "plate": "DL 3C JY 5677",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/image01156_jpg.rf.d15f057c0fb5514611d56b9fa061c334.jpg",
+    "filename": "image01156_jpg.rf.d15f057c0fb5514611d56b9fa061c334.jpg",
+    "ai_prediction": {
+      "plate": "DL 2C YZ 9983",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Mahindra_Mahindra_Bolero_Neo_angle_04.jpg",
+    "filename": "Studio_car_Mahindra_Mahindra_Bolero_Neo_angle_04.jpg",
+    "ai_prediction": {
+      "plate": "DL 1C RB 1907",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Image_013334_jpg.rf.888e555b254739b69a71a19788be9baa.jpg",
+    "filename": "Image_013334_jpg.rf.888e555b254739b69a71a19788be9baa.jpg",
+    "ai_prediction": {
+      "plate": "DL 2C JY 8450",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Mercedes-Benz_Mercedes-Benz_AMG_S_63_angle_07.jpg",
+    "filename": "Studio_car_Mercedes-Benz_Mercedes-Benz_AMG_S_63_angle_07.jpg",
+    "ai_prediction": {
+      "plate": "DL 2C SO 2617",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Generic_KA3.jpg",
+    "filename": "Generic_KA3.jpg",
+    "ai_prediction": {
+      "plate": "DL 2C MM 4944",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Generic_JK1.jpg",
+    "filename": "Generic_JK1.jpg",
+    "ai_prediction": {
+      "plate": "DL 8C KK 8564",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/5a1e37db78f66_jpg.rf.1d6b2371cdfb6b5aef5819d3b0aa24af.jpg",
+    "filename": "5a1e37db78f66_jpg.rf.1d6b2371cdfb6b5aef5819d3b0aa24af.jpg",
+    "ai_prediction": {
+      "plate": "DL 1C SD 5916",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Tata_Tata_Tiago_EV_angle_02.jpg",
+    "filename": "Studio_car_Tata_Tata_Tiago_EV_angle_02.jpg",
+    "ai_prediction": {
+      "plate": "DL 8C QR 5387",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Honda_Honda_Amaze_angle_08.jpg",
+    "filename": "Studio_car_Honda_Honda_Amaze_angle_08.jpg",
+    "ai_prediction": {
+      "plate": "DL 6C PZ 7340",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_video10_980.jpg",
+    "filename": "Studio_car_video10_980.jpg",
+    "ai_prediction": {
+      "plate": "DL 7C OL 8645",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/152_jpg.rf.1b1b2ee8810b081f2e7a852ebb0c2e12.jpg",
+    "filename": "152_jpg.rf.1b1b2ee8810b081f2e7a852ebb0c2e12.jpg",
+    "ai_prediction": {
+      "plate": "DL 8C AA 1030",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_BMW_BMW_X7_angle_03.jpg",
+    "filename": "Studio_car_BMW_BMW_X7_angle_03.jpg",
+    "ai_prediction": {
+      "plate": "DL 1C WE 5955",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_heavy_commercial_vehicles_bus-164-_jpg.rf.a8347e840cab510fed2b3bb5887eefc4.jpg",
+    "filename": "Studio_heavy_commercial_vehicles_bus-164-_jpg.rf.a8347e840cab510fed2b3bb5887eefc4.jpg",
+    "ai_prediction": {
+      "plate": "DL 5C UN 3859",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/00000059-2-_jpg.rf.fc956c1601344a9046e328f75e892879.jpg",
+    "filename": "00000059-2-_jpg.rf.fc956c1601344a9046e328f75e892879.jpg",
+    "ai_prediction": {
+      "plate": "DL 3C WC 2336",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Tata_Tata_Nexon_angle_05.jpg",
+    "filename": "Studio_car_Tata_Tata_Nexon_angle_05.jpg",
+    "ai_prediction": {
+      "plate": "DL 3C OI 4145",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Toyota_Toyota_Taisor_angle_03.jpg",
+    "filename": "Studio_car_Toyota_Toyota_Taisor_angle_03.jpg",
+    "ai_prediction": {
+      "plate": "DL 8C YC 1034",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-00602-Copy-2-_jpg.rf.60401aaa75749effff46495d65211aa9.jpg",
+    "filename": "vlcsnap-00602-Copy-2-_jpg.rf.60401aaa75749effff46495d65211aa9.jpg",
+    "ai_prediction": {
+      "plate": "DL 5C ZO 7121",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-2022-03-14-12h19m50s817_jpg.rf.532c707c0cd5c065c3e017aa36dbd1f8.jpg",
+    "filename": "vlcsnap-2022-03-14-12h19m50s817_jpg.rf.532c707c0cd5c065c3e017aa36dbd1f8.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C EC 9963",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Tata_Tata_Tiago_NRG_angle_21.jpg",
+    "filename": "Studio_car_Tata_Tata_Tiago_NRG_angle_21.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C HO 2995",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Hyundai_Hyundai_Venue_N_Line_angle_20.jpg",
+    "filename": "Studio_car_Hyundai_Hyundai_Venue_N_Line_angle_20.jpg",
+    "ai_prediction": {
+      "plate": "DL 4C SP 4011",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Mercedes-Benz_Mercedes-Benz_A-Class_Limousine_angle_02.jpg",
+    "filename": "Studio_car_Mercedes-Benz_Mercedes-Benz_A-Class_Limousine_angle_02.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C XL 5642",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-00155-Copy-2-_jpg.rf.b7f596ec95219a3bbae95f87f150498b.jpg",
+    "filename": "vlcsnap-00155-Copy-2-_jpg.rf.b7f596ec95219a3bbae95f87f150498b.jpg",
+    "ai_prediction": {
+      "plate": "DL 1C OE 5007",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Generic_video10_870.jpg",
+    "filename": "Generic_video10_870.jpg",
+    "ai_prediction": {
+      "plate": "DL 4C ZU 1860",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Mahindra_Mahindra_XEV_9S_angle_14.jpg",
+    "filename": "Studio_car_Mahindra_Mahindra_XEV_9S_angle_14.jpg",
+    "ai_prediction": {
+      "plate": "DL 7C HO 3878",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/bus-22-_jpg.rf.076ed5f30001c0a1e01c2a7740ee29c5.jpg",
+    "filename": "bus-22-_jpg.rf.076ed5f30001c0a1e01c2a7740ee29c5.jpg",
+    "ai_prediction": {
+      "plate": "DL 2C UB 6029",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Image_013438_jpg.rf.bdc72d2edb08ea8cdadfcd63cf0e1b1f.jpg",
+    "filename": "Image_013438_jpg.rf.bdc72d2edb08ea8cdadfcd63cf0e1b1f.jpg",
+    "ai_prediction": {
+      "plate": "DL 3C XW 4447",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_BMW_BMW_i5_angle_00.jpg",
+    "filename": "Studio_car_BMW_BMW_i5_angle_00.jpg",
+    "ai_prediction": {
+      "plate": "DL 7C HN 8532",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-2022-03-14-12h20m33s133_jpg.rf.f166043f37171c345b22430e7834125a.jpg",
+    "filename": "vlcsnap-2022-03-14-12h20m33s133_jpg.rf.f166043f37171c345b22430e7834125a.jpg",
+    "ai_prediction": {
+      "plate": "DL 7C UZ 5381",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/0f1b8511-6bc8-4d28-b0ad-83dcefecfcbb_jpeg.rf.a76349fac83a82f3eeb0860732228aab.jpg",
+    "filename": "0f1b8511-6bc8-4d28-b0ad-83dcefecfcbb_jpeg.rf.a76349fac83a82f3eeb0860732228aab.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C SC 7903",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_video4_2730.jpg",
+    "filename": "Studio_car_video4_2730.jpg",
+    "ai_prediction": {
+      "plate": "DL 4C MT 2752",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/0d4f0eb2-5e55-4028-882d-6720bee46db8_jpeg.rf.08651ff0b82bd2a09c0441dd2acfd0d4.jpg",
+    "filename": "0d4f0eb2-5e55-4028-882d-6720bee46db8_jpeg.rf.08651ff0b82bd2a09c0441dd2acfd0d4.jpg",
+    "ai_prediction": {
+      "plate": "DL 7C OS 4127",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_2wheeler_739_jpg.rf.3fd38c11f4e13a7c5826f987f9cf6642.jpg",
+    "filename": "Studio_2wheeler_739_jpg.rf.3fd38c11f4e13a7c5826f987f9cf6642.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C RG 4999",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Tata_Tata_Tigor_EV_angle_14.jpg",
+    "filename": "Studio_car_Tata_Tata_Tigor_EV_angle_14.jpg",
+    "ai_prediction": {
+      "plate": "DL 1C FK 5416",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Hyundai_Hyundai_i20_angle_02.jpg",
+    "filename": "Studio_car_Hyundai_Hyundai_i20_angle_02.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C HQ 1648",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/bus-125-_jpg.rf.2096db3fd347a45bf47c3e4ec30e5504.jpg",
+    "filename": "bus-125-_jpg.rf.2096db3fd347a45bf47c3e4ec30e5504.jpg",
+    "ai_prediction": {
+      "plate": "DL 1C YP 5386",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Generic_video10_830.jpg",
+    "filename": "Generic_video10_830.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C PH 3660",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/bus-102-_jpg.rf.30beb788c5074b2f7089e82af7bdf218.jpg",
+    "filename": "bus-102-_jpg.rf.30beb788c5074b2f7089e82af7bdf218.jpg",
+    "ai_prediction": {
+      "plate": "DL 6C FM 3915",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/q_png.rf.21c1e986b7c1a3a764d54d1899f7a9ec.jpg",
+    "filename": "q_png.rf.21c1e986b7c1a3a764d54d1899f7a9ec.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C GR 4548",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_video10_950.jpg",
+    "filename": "Studio_car_video10_950.jpg",
+    "ai_prediction": {
+      "plate": "DL 4C JQ 3268",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-2022-03-15-13h37m53s193_jpg.rf.b7faf324b12150dc483b58ac5d30d75a.jpg",
+    "filename": "vlcsnap-2022-03-15-13h37m53s193_jpg.rf.b7faf324b12150dc483b58ac5d30d75a.jpg",
+    "ai_prediction": {
+      "plate": "DL 4C YR 6349",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-00203-Copy-2-_jpg.rf.d22fb6759ea53e05de06a8fd411617c5.jpg",
+    "filename": "vlcsnap-00203-Copy-2-_jpg.rf.d22fb6759ea53e05de06a8fd411617c5.jpg",
+    "ai_prediction": {
+      "plate": "DL 9C FN 6204",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-2022-03-17-19h32m38s924_jpg.rf.e5d75b103779ff7eb6400960a77a0b55.jpg",
+    "filename": "vlcsnap-2022-03-17-19h32m38s924_jpg.rf.e5d75b103779ff7eb6400960a77a0b55.jpg",
+    "ai_prediction": {
+      "plate": "DL 5C JB 3772",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/vlcsnap-2022-03-15-11h37m57s798_jpg.rf.9f65f30056fc3377fe3f2c712b3e9c9c.jpg",
+    "filename": "vlcsnap-2022-03-15-11h37m57s798_jpg.rf.9f65f30056fc3377fe3f2c712b3e9c9c.jpg",
+    "ai_prediction": {
+      "plate": "DL 8C GI 9221",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Hyundai_Hyundai_Creta_Electric_angle_02.jpg",
+    "filename": "Studio_car_Hyundai_Hyundai_Creta_Electric_angle_02.jpg",
+    "ai_prediction": {
+      "plate": "DL 8C WU 6572",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  },
+  {
+    "image_url": "/static/train/Studio_car_Maruti_Maruti_Suzuki_Baleno_angle_13.jpg",
+    "filename": "Studio_car_Maruti_Maruti_Suzuki_Baleno_angle_13.jpg",
+    "ai_prediction": {
+      "plate": "DL 4C TQ 2174",
+      "model": "Scanning...",
+      "brand": "Detecting"
+    }
+  }
+]

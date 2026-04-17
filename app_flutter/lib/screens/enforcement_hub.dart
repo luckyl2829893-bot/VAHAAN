@@ -1,5 +1,7 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:image_picker/image_picker.dart';
 import '../core/theme.dart';
 
 class EnforcementHub extends StatefulWidget {
@@ -10,16 +12,39 @@ class EnforcementHub extends StatefulWidget {
 }
 
 class _EnforcementHubState extends State<EnforcementHub> {
-  String? _detectedPlate;
-  bool _isScanning = false;
-
-  // Mock Performance Data
-  int flaggedCount = 142;
-  int challansIssued = 89;
-  double promoProbability = 0.72; // 72%
+  // Slicer Logic
+  String _timeframe = 'Today';
   
-  // Status: 0=Red, 1=Orange, 2=Yellow, 3=Green
+  // Base counts (Today)
+  int baseFlagged = 12;
+  int baseChallans = 8;
+
+  // Promotion Data
+  double promoProbability = 0.72; 
   int integrityStatus = 2; 
+
+  int get flaggedCount {
+    if (_timeframe == 'Today') return baseFlagged;
+    if (_timeframe == 'Week') return baseFlagged * 6;
+    if (_timeframe == 'Month') return baseFlagged * 24;
+    if (_timeframe == 'Quarter') return baseFlagged * 72;
+    return baseFlagged * 280;
+  }
+
+  int get challansIssued {
+    if (_timeframe == 'Today') return baseChallans;
+    if (_timeframe == 'Week') return baseChallans * 6;
+    if (_timeframe == 'Month') return baseChallans * 24;
+    if (_timeframe == 'Quarter') return baseChallans * 72;
+    return baseChallans * 280;
+  }
+
+  int get yearsToRank {
+    // Range 7 years down to ~1 year based on probability
+    return (7 - (promoProbability * 6)).round();
+  }
+
+  String? _detectedPlate;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +60,10 @@ class _EnforcementHubState extends State<EnforcementHub> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // --- TIMEFRAME SLICER ---
+            _buildTimeSlicer(),
+            const SizedBox(height: 24),
+            
             // --- PERFORMANCE HUB (TRENDS) ---
             _buildPerformanceGrid(),
             const SizedBox(height: 32),
@@ -88,11 +117,12 @@ class _EnforcementHubState extends State<EnforcementHub> {
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(color: Theme.of(context).cardTheme.color, borderRadius: BorderRadius.circular(28), border: Border.all(color: ARGTheme.meritGold.withOpacity(0.3))),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-                const Text("PROMOTION PROBABILITY", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1)),
+                const Text("PROMOTION VELOCITY", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 11, letterSpacing: 1)),
                 Text("${(promoProbability * 100).toInt()}%", style: const TextStyle(color: ARGTheme.meritGold, fontWeight: FontWeight.w900, fontSize: 18)),
             ],
           ),
@@ -102,10 +132,36 @@ class _EnforcementHubState extends State<EnforcementHub> {
             child: LinearProgressIndicator(value: promoProbability, minHeight: 10, backgroundColor: Colors.white10, valueColor: const AlwaysStoppedAnimation(ARGTheme.meritGold)),
           ),
           const SizedBox(height: 12),
-          const Text("High probability for next Rank. Keep patrol volume steady.", style: TextStyle(fontSize: 10, color: Colors.grey)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("Est. Time to Rank: $yearsToRank Years", style: const TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.white)),
+              const Text("Base: 7 Years", style: TextStyle(fontSize: 10, color: Colors.grey)),
+            ],
+          ),
+          const Text("High performance detected. Ranking cycle accelerated.", style: TextStyle(fontSize: 10, color: Colors.grey)),
         ],
       ),
     ).animate().fadeIn(delay: 200.ms);
+  }
+
+  Widget _buildTimeSlicer() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: ['Today', 'Week', 'Month', 'Quarter', 'Year'].map((t) => Padding(
+          padding: const EdgeInsets.only(right: 8),
+          child: ChoiceChip(
+            label: Text(t),
+            selected: _timeframe == t,
+            onSelected: (val) => setState(() => _timeframe = t),
+            selectedColor: ARGTheme.primaryBlue,
+            backgroundColor: Theme.of(context).cardTheme.color,
+            labelStyle: TextStyle(color: _timeframe == t ? Colors.white : Colors.grey, fontWeight: FontWeight.bold, fontSize: 10),
+          ),
+        )).toList(),
+      ),
+    );
   }
 
   Widget _buildIntegrityGauge() {
@@ -154,11 +210,51 @@ class _EnforcementHubState extends State<EnforcementHub> {
 
   Widget _buildScannerSection() {
     return Container(
-      height: 120,
-      decoration: BoxDecoration(color: Colors.black, borderRadius: BorderRadius.circular(24), border: Border.all(color: ARGTheme.electricBlue.withOpacity(0.3))),
-      child: Center(
-        child: ElevatedButton.icon(onPressed: () {}, icon: const Icon(Icons.qr_code_scanner_rounded), label: const Text("LAUNCH PLATE SCANNER")),
+      height: 200,
+      width: double.infinity,
+      decoration: BoxDecoration(
+          color: Colors.black, 
+          borderRadius: BorderRadius.circular(24), 
+          border: Border.all(color: ARGTheme.electricBlue.withOpacity(0.3)),
+          image: _scannedImage != null ? DecorationImage(image: MemoryImage(_scannedImage!), fit: BoxFit.cover) : null,
+      ),
+      child: Stack(
+          alignment: Alignment.center,
+          children: [
+              if (_scannedImage == null)
+                  ElevatedButton.icon(
+                      onPressed: _scanPlate, 
+                      icon: const Icon(Icons.qr_code_scanner_rounded), 
+                      label: const Text("LAUNCH PLATE SCANNER"),
+                  )
+              else 
+                  Positioned(
+                      top: 16,
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(color: Colors.black87, borderRadius: BorderRadius.circular(12), border: Border.all(color: ARGTheme.electricBlue)),
+                          child: Text(_detectedPlate ?? "SCANNING...", style: const TextStyle(color: ARGTheme.electricBlue, fontWeight: FontWeight.bold, letterSpacing: 2)),
+                      ),
+                  ),
+          ],
       ),
     );
+  }
+
+  Uint8List? _scannedImage;
+  void _scanPlate() async {
+      final picker = ImagePicker();
+      final XFile? photo = await picker.pickImage(source: ImageSource.camera);
+      if (photo != null) {
+          final bytes = await photo.readAsBytes();
+          setState(() {
+              _scannedImage = bytes;
+          });
+          
+          await Future.delayed(2.seconds);
+          setState(() {
+              _detectedPlate = "DL 8C AD 5521"; // Simulated OCR
+          });
+      }
   }
 }

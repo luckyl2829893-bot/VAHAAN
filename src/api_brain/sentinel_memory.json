@@ -1,0 +1,253 @@
+{
+  "experiences": [
+    {
+      "timestamp": 1776403314.0276723,
+      "filename": "vlcsnap-2022-03-17-13h32m16s423_jpg.rf.af04d9ae5c0f640c1a871dca91cd0db6.jpg",
+      "human_input": {
+        "plate_readable": false,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "UP 16 CL 0001",
+        "model": "Unknown Sedan",
+        "brand": "Unknown"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776404545.3521733,
+      "filename": "0855dff0-b172-4212-8b49-fa0d0cd43b7d_jpeg.rf.e54188114acc00006c3924309d6a1bbf.jpg",
+      "human_input": {
+        "plate_readable": true,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 2C OB 3858",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776404552.7194524,
+      "filename": "vlcsnap-2022-03-14-12h20m33s133_jpg.rf.f166043f37171c345b22430e7834125a.jpg",
+      "human_input": {
+        "plate_readable": false,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 3C QA 6789",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776404557.1738522,
+      "filename": "vlcsnap-2022-03-14-12h09m15s876_jpg.rf.d891978b2a5d43ae6b83f5fbee1d2d9e.jpg",
+      "human_input": {
+        "plate_readable": false,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 9C LZ 5744",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776404559.2099602,
+      "filename": "vlcsnap-2022-03-14-12h09m15s876_jpg.rf.d891978b2a5d43ae6b83f5fbee1d2d9e.jpg",
+      "human_input": {
+        "plate_readable": false,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 9C LZ 5744",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776404582.3379273,
+      "filename": "Studio_car_Tata_Tata_Nexon_EV_angle_01.jpg",
+      "human_input": {
+        "plate_readable": true,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 9C LJ 5832",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776405370.8603327,
+      "filename": "Studio_car_BMW_BMW_X3_angle_11.jpg",
+      "human_input": {
+        "plate_readable": false,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 8C NX 9046",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776405375.7448227,
+      "filename": "Generic_GJ2.jpg",
+      "human_input": {
+        "plate_readable": true,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 8C OF 4158",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776405383.7918062,
+      "filename": "Studio_car_video3_2240.jpg",
+      "human_input": {
+        "plate_readable": true,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 1C NB 5230",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776405385.8176842,
+      "filename": "Studio_car_video3_2240.jpg",
+      "human_input": {
+        "plate_readable": true,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 1C NB 5230",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776405387.8464496,
+      "filename": "Studio_car_video3_2240.jpg",
+      "human_input": {
+        "plate_readable": true,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 1C NB 5230",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776405392.1910505,
+      "filename": "bus-210-_jpg.rf.838f82dc011641ae8b4fffc3218ab6d7.jpg",
+      "human_input": {
+        "plate_readable": false,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 2C UG 3192",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": 1776405394.197611,
+      "filename": "bus-210-_jpg.rf.838f82dc011641ae8b4fffc3218ab6d7.jpg",
+      "human_input": {
+        "plate_readable": false,
+        "source": "Citizen (Mobile)"
+      },
+      "ai_prediction": {
+        "plate": "DL 2C UG 3192",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "status": "Rewritten"
+    },
+    {
+      "timestamp": "2026-04-17T14:03:12.123758",
+      "filename": "vlcsnap-2022-03-15-11h37m57s798_jpg.rf.9f65f30056fc3377fe3f2c712b3e9c9c.jpg",
+      "human_input": {
+        "research_results": {},
+        "source": "Citizen (Mobile)",
+        "timestamp": "2026-04-17T14:03:04.079"
+      },
+      "ai_prediction": {
+        "plate": "DL 8C GI 9221",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "gemma_reasoning": "[SIMULATED REASONING] Gemma 4 Bridge offline. Retraining scheduled.",
+      "stability_index_delta": 0.04135152494057706
+    },
+    {
+      "timestamp": "2026-04-17T14:03:20.155459",
+      "filename": "vlcsnap-2022-03-15-11h37m57s798_jpg.rf.9f65f30056fc3377fe3f2c712b3e9c9c.jpg",
+      "human_input": {
+        "research_results": {},
+        "source": "Citizen (Mobile)",
+        "timestamp": "2026-04-17T14:03:06.485"
+      },
+      "ai_prediction": {
+        "plate": "DL 8C GI 9221",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "gemma_reasoning": "[SIMULATED REASONING] Gemma 4 Bridge offline. Retraining scheduled.",
+      "stability_index_delta": 0.04665047241010307
+    },
+    {
+      "timestamp": "2026-04-17T14:10:34.430333",
+      "filename": "Studio_car_Maruti_Maruti_Suzuki_Baleno_angle_13.jpg",
+      "human_input": {
+        "research_results": {},
+        "source": "Citizen (Mobile)",
+        "timestamp": "2026-04-17T14:10:26.383"
+      },
+      "ai_prediction": {
+        "plate": "DL 4C TQ 2174",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "gemma_reasoning": "[SIMULATED REASONING] Gemma 4 Bridge offline. Retraining scheduled.",
+      "stability_index_delta": 0.04845470689188833
+    },
+    {
+      "timestamp": "2026-04-17T14:15:12.326013",
+      "filename": "5d33ffd0-1fd3-454e-a2d4-3121dbcaae84_jpeg.rf.5598355e3f5a1f8a7fc032f180d794cc.jpg",
+      "human_input": {
+        "plate": "UP78HT4548",
+        "model": "Bus",
+        "brand": "Tata"
+      },
+      "ai_prediction": {
+        "plate": "DL 3C JY 5677",
+        "model": "Scanning...",
+        "brand": "Detecting"
+      },
+      "gemma_reasoning": "[SIMULATED REASONING] Gemma 4 Bridge offline. Retraining scheduled.",
+      "stability_index_delta": 0.0389741996801833
+    }
+  ],
+  "total_learned": 17,
+  "stability": 1.0,
+  "pending_milestone_count": 4
+}

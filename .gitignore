@@ -1,4 +1,16 @@
-# --- Aequitas-RoadGuard .gitignore ---
+# --- VAHAAN .gitignore ---
+
+# Internal Blueprints & Logs (Keep local, hide from GitHub)
+ARG_Master_Blueprint.md
+ARG_Developer_Log.md
+VAHAAN_Developer_Log.md
+arg_mlops_audit_and_roadmap.md
+PROJECT_GUIDE.md
+
+# --- TRACKED FILES (FOR REFERENCE) ---
+# We make sure code and documentation are explicitly tracked.
+!README.md
+!requirements.txt
 
 # Python Environment and Cache
 ARGvenv/
@@ -66,9 +78,9 @@ Thumbs.db
 
 # --- TRACKED FILES (FOR REFERENCE) ---
 # We make sure code and documentation are explicitly tracked.
-!README.md
+
 !PROJECT_GUIDE.md
 !ARG_Master_Blueprint.md
 !ARG_Developer_Log.md
 !arg_mlops_audit_and_roadmap.md
-!requirements.txt
+

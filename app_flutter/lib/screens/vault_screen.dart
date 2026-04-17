@@ -1,9 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:image_picker/image_picker.dart';
 import '../core/theme.dart';
+import '../core/api_service.dart';
 
-class VaultScreen extends StatelessWidget {
+class VaultScreen extends StatefulWidget {
   const VaultScreen({super.key});
+
+  @override
+  State<VaultScreen> createState() => _VaultScreenState();
+}
+
+class _VaultScreenState extends State<VaultScreen> {
+  bool _isUploading = false;
+
+  void _addDocument() async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    
+    if (image != null) {
+      setState(() => _isUploading = true);
+      
+      // Simulate upload for specific contact (mock)
+      final success = await APIService.uploadDoc(
+        contact: "9876543210", 
+        type: "NEW_DOC",
+        bytes: await image.readAsBytes(),
+      );
+      
+      setState(() => _isUploading = false);
+      
+      if (success && mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(backgroundColor: ARGTheme.ghpGreen, content: Text("Document safely encrypted and stored in vault."))
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -48,9 +81,9 @@ class VaultScreen extends StatelessWidget {
           const SizedBox(height: 40),
           
           OutlinedButton.icon(
-            onPressed: () {},
-            icon: const Icon(Icons.add_rounded),
-            label: const Text('ADD NEW DOCUMENT'),
+            onPressed: _isUploading ? null : _addDocument,
+            icon: _isUploading ? const SizedBox(height: 20, width: 20, child: CircularProgressIndicator(strokeWidth: 2)) : const Icon(Icons.add_rounded),
+            label: Text(_isUploading ? 'ENCRYPTING...' : 'ADD NEW DOCUMENT'),
             style: OutlinedButton.styleFrom(
               minimumSize: const Size(double.infinity, 56),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),

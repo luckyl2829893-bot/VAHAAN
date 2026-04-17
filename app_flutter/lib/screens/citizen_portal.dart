@@ -3,6 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:go_router/go_router.dart';
 import '../core/theme.dart';
+import '../core/api_service.dart';
 
 class CitizenPortal extends StatefulWidget {
   const CitizenPortal({super.key});
@@ -14,13 +15,57 @@ class CitizenPortal extends StatefulWidget {
 class _CitizenPortalState extends State<CitizenPortal> {
   bool isTakingTest = false;
   bool testSubmitted = false;
+  Map<String, dynamic>? currentTask;
+  bool? isPlateReadable;
+  int questionsAnswered = 0;
+  int totalExamQuestions = 5; 
+  Map<String, dynamic> currentAnswers = {};
 
-  void _startTest() => setState(() => isTakingTest = true);
+  void _startTest() async {
+    final task = await APIService.getGradingTask();
+    if (task != null) {
+      setState(() {
+        currentTask = task;
+        isTakingTest = true;
+        isPlateReadable = null;
+        questionsAnswered = 0;
+      });
+    }
+  }
+
   void _submitTest() async {
-    setState(() => isTakingTest = false);
-    setState(() => testSubmitted = true);
-    await Future.delayed(2.seconds);
-    setState(() => testSubmitted = false);
+    if (currentTask == null) return;
+    
+    await APIService.syncGrading(
+      filename: currentTask!['filename'],
+      humanInput: {
+          "research_results": currentAnswers,
+          "source": "Citizen (Mobile)",
+          "timestamp": DateTime.now().toIso8601String(),
+      },
+      aiPrediction: currentTask!['ai_prediction'],
+    );
+    
+    currentAnswers = {}; 
+
+    if (questionsAnswered + 1 < totalExamQuestions) {
+       // Load next question
+       final nextTask = await APIService.getGradingTask();
+       setState(() {
+          currentTask = nextTask;
+          questionsAnswered++;
+          isPlateReadable = null;
+       });
+    } else {
+       // End of exam
+       setState(() {
+         isTakingTest = false;
+         testSubmitted = true;
+         currentTask = null;
+       });
+       await Future.delayed(const Duration(seconds: 4));
+       if(mounted) setState(() => testSubmitted = false);
+    }
   }
 
   @override
@@ -30,7 +75,7 @@ class _CitizenPortalState extends State<CitizenPortal> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        title: Text('CITIZEN PORTAL', style: Theme.of(context).textTheme.titleLarge?.copyWith(letterSpacing: 2)),
+        title: Text('VAHAAN CITIZEN PORTAL', style: Theme.of(context).textTheme.titleLarge?.copyWith(letterSpacing: 2)),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -81,8 +126,13 @@ class _CitizenPortalState extends State<CitizenPortal> {
                   const SizedBox(height: 20),
                   ElevatedButton(
                       onPressed: _startTest,
-                      style: ElevatedButton.styleFrom(backgroundColor: ARGTheme.primaryBlue),
-                      child: const Center(child: Text("START QUALIFICATION TEST")),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: ARGTheme.primaryBlue,
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                      ),
+                      child: const Center(child: Text("START QUALIFICATION TEST", style: TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5))),
                   ),
               ],
           ),
@@ -99,35 +149,113 @@ class _CitizenPortalState extends State<CitizenPortal> {
           ),
           child: Column(
               children: [
-                  const Text("EXAMINATION HALL", style: TextStyle(fontWeight: FontWeight.w900, color: ARGTheme.meritGold)),
+                   Text("QUESTION ${questionsAnswered + 1} OF $totalExamQuestions", style: const TextStyle(fontWeight: FontWeight.w900, color: ARGTheme.meritGold, fontSize: 10)),
                   const SizedBox(height: 16),
                   Container(
-                      height: 140,
+                      height: 220,
                       width: double.infinity,
                       decoration: BoxDecoration(
+                          color: Colors.black12,
                           borderRadius: BorderRadius.circular(16),
-                          image: const DecorationImage(
-                              image: NetworkImage('https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&q=80&w=2070'),
-                              fit: BoxFit.cover,
-                          ),
+                          border: Border.all(color: Colors.white.withOpacity(0.05)),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(16),
+                        child: currentTask == null 
+                          ? const Center(child: CircularProgressIndicator()) 
+                          : Image.network(
+                              '${APIService.baseUrl.replaceAll("/api", "")}${currentTask?['image_url']}',
+                              fit: BoxFit.contain,
+                              errorBuilder: (context, error, stackTrace) => const Center(child: Text("Image stream pending...")),
+                            ),
                       ),
                   ),
                   const SizedBox(height: 16),
-                  const Text("Is the License Plate visible and readable?", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)),
+                  if (currentTask != null && (currentTask!['questions'] as List? ?? []).isEmpty)
+                    _buildResearchQuestion({"id": "qc", "type": "binary", "text": "Is the vehicle data captured above accurate?"})
+                  else
+                    ... (currentTask?['questions'] as List? ?? []).map((q) => _buildResearchQuestion(q)),
                   Row(
-                      children: [
-                          Expanded(child: RadioListTile(value: true, groupValue: true, onChanged: (v){}, title: const Text("YES", style: TextStyle(fontSize: 10)))),
-                          Expanded(child: RadioListTile(value: false, groupValue: true, onChanged: (v){}, title: const Text("NO", style: TextStyle(fontSize: 10)))),
-                      ],
-                  ),
-                  ElevatedButton(
-                      onPressed: _submitTest,
-                      style: ElevatedButton.styleFrom(backgroundColor: ARGTheme.ghpGreen),
-                      child: const Text("SUBMIT PAPER FOR GRADING", style: TextStyle(color: Colors.white)),
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () async {
+                              await APIService.skipTask();
+                              final task = await APIService.getGradingTask();
+                              if (task != null) {
+                                  setState(() => currentTask = task);
+                              }
+                          },
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: Colors.white24),
+                            padding: const EdgeInsets.symmetric(vertical: 20),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                          ),
+                          child: const Text("SKIP", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        flex: 2,
+                        child: ElevatedButton(
+                            onPressed: _submitTest,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: ARGTheme.meritGold, 
+                              foregroundColor: Colors.black, 
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                              elevation: 8,
+                            ),
+                            child: Text(
+                              questionsAnswered + 1 == totalExamQuestions ? "SUBMIT BATCH" : "NEXT VERIFICATION", 
+                              style: const TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1.5, color: Colors.black, fontSize: 10),
+                            ),
+                        ),
+                      ),
+                    ],
                   ),
               ],
           ),
       ).animate().slideX(begin: 1).fadeIn();
+  }
+
+  Widget _buildResearchQuestion(Map<String, dynamic> q) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 20),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(color: Colors.white.withOpacity(0.03), borderRadius: BorderRadius.circular(20), border: Border.all(color: Colors.white10)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(q['text'], style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 11, color: ARGTheme.meritGold)),
+          const SizedBox(height: 12),
+          if (q['type'] == 'binary') 
+             Row(children: [
+               _buildChoiceChip(q['id'], "Yes"),
+               const SizedBox(width: 8),
+               _buildChoiceChip(q['id'], "No"),
+             ])
+          else 
+             Wrap(spacing: 8, runSpacing: 8, children: (q['options'] as List).map((opt) => _buildChoiceChip(q['id'], opt.toString())).toList()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildChoiceChip(String qId, String value) {
+    bool isSelected = currentAnswers[qId] == value;
+    return InkWell(
+      onTap: () => setState(() => currentAnswers[qId] = value),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? ARGTheme.meritGold : Colors.transparent,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: isSelected ? ARGTheme.meritGold : Colors.white24),
+        ),
+        child: Text(value, style: TextStyle(color: isSelected ? Colors.black : Colors.white70, fontSize: 10, fontWeight: FontWeight.bold)),
+      ),
+    );
   }
 
   Widget _buildSubmissionStatus() {

@@ -1,5 +1,7 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:image_picker/image_picker.dart';
 import '../core/theme.dart';
 import '../core/api_service.dart';
 
@@ -15,6 +17,8 @@ class _ReportScreenState extends State<ReportScreen> {
   final _summaryController = TextEditingController();
   String _violationType = 'Speeding';
   bool _isSubmitting = false;
+  Uint8List? _evidenceBytes;
+  String? _evidenceName;
 
   final List<String> _types = [
     'Speeding',
@@ -36,11 +40,10 @@ class _ReportScreenState extends State<ReportScreen> {
 
     setState(() => _isSubmitting = true);
     
-    // Simulating API call
     final success = await APIService.reportViolation(
       plate: _plateController.text,
       type: _violationType,
-      evidencePath: '/mock/path/video.mp4',
+      evidencePath: _evidenceName ?? 'video.mp4',
       lat: 28.6139,
       lng: 77.2090,
     );
@@ -120,34 +123,59 @@ class _ReportScreenState extends State<ReportScreen> {
     );
   }
 
+  void _pickEvidence() async {
+    final picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      final bytes = await image.readAsBytes();
+      setState(() {
+        _evidenceBytes = bytes;
+        _evidenceName = image.name;
+      });
+    }
+  }
+
   Widget _buildCameraPreview() {
-    return Container(
-      height: 200,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.black,
-        borderRadius: BorderRadius.circular(24),
-        border: Border.all(color: Colors.white.withOpacity(0.1)),
-      ),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          const Icon(Icons.videocam_rounded, size: 48, color: Colors.white10),
-          Positioned(
-            bottom: 16,
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(12)),
-              child: const Row(
-                children: [
-                  Icon(Icons.location_on_rounded, size: 14, color: ARGTheme.errorRed),
-                  SizedBox(width: 4),
-                  Text('GPS LOCKED (28.6139, 77.2090)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                ],
+    return InkWell(
+      onTap: _pickEvidence,
+      borderRadius: BorderRadius.circular(24),
+      child: Container(
+        height: 200,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: Colors.black,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: Colors.white.withOpacity(0.1)),
+          image: _evidenceBytes != null ? DecorationImage(image: MemoryImage(_evidenceBytes!), fit: BoxFit.contain) : null,
+        ),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            if (_evidenceBytes == null)
+               const Column(
+                 mainAxisAlignment: MainAxisAlignment.center,
+                 children: [
+                   Icon(Icons.add_a_photo_rounded, size: 48, color: Colors.white24),
+                   SizedBox(height: 12),
+                   Text("TAP TO CAPTURE EVIDENCE", style: TextStyle(color: Colors.white24, fontWeight: FontWeight.bold, fontSize: 10)),
+                 ],
+               ),
+            Positioned(
+              bottom: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(12)),
+                child: const Row(
+                  children: [
+                    Icon(Icons.location_on_rounded, size: 14, color: ARGTheme.errorRed),
+                    SizedBox(width: 4),
+                    Text('GPS LOCKED (28.6139, 77.2090)', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ).animate().fadeIn().scale();
   }
@@ -188,15 +216,20 @@ class _ReportScreenState extends State<ReportScreen> {
   }
 
   Widget _buildSubmitButton() {
-    return ElevatedButton(
-      onPressed: _isSubmitting ? null : _submit,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: ARGTheme.primaryBlue,
-        padding: const EdgeInsets.symmetric(vertical: 20),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: _isSubmitting ? null : _submit,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: ARGTheme.primaryBlue,
+          foregroundColor: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        ),
+        child: _isSubmitting 
+          ? const SizedBox(height: 24, width: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
+          : const Text('SUBMIT ENFORCEMENT EVIDENCE', style: TextStyle(fontWeight: FontWeight.bold)),
       ),
-      child: _isSubmitting 
-        ? const SizedBox(height: 24, width: 24, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-        : const Text('SUBMIT EVIDENCE'),
     ).animate().fadeIn(delay: 400.ms);
   }
 }
