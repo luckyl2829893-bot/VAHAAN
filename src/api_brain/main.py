@@ -35,6 +35,7 @@ if str(root_path) not in sys.path:
 
 from src.database.manager import DBManager
 from src.database.db_writer import lookup_plate, insert_full_record
+from src.features.safety_engine import SafetyEngine
 
 # --- Setup Directories ---
 USER_DATA_DIR = root_path / "data" / "users"
@@ -82,6 +83,7 @@ class VisionEngine:
         }
 
 vision_engine = VisionEngine()
+safety_engine = SafetyEngine(root_path)
 
 class FaceEngine:
     def __init__(self):
@@ -158,6 +160,14 @@ class AdjudicationSubmit(BaseModel):
 class DocUploadRequest(BaseModel):
     contact_no: str
     doc_type: str # RC, Insurance, License
+
+class SafetyScanRequest(BaseModel):
+    plate_number: Optional[str] = None
+    vehicle_type: Optional[str] = None   # motorcycle | car | truck | any
+    is_repeat_offender: bool = False
+    location_lat: Optional[float] = None
+    location_lng: Optional[float] = None
+    notes: Optional[str] = None
 
 # --- Endpoints ---
 
@@ -600,11 +610,148 @@ async def reset_milestone():
         
     return {"status": "success", "message": "Milestone reset. Ready for the next 500 images."}
 
+# ─────────────────────────────────────────────────────────────────────────────
+# VAHAAN Road Safety Enforcement API
+# ─────────────────────────────────────────────────────────────────────────────
+
+SAFETY_LOG_FILE = root_path / "src" / "api_brain" / "safety_violations_log.json"
+if not SAFETY_LOG_FILE.exists():
+    with open(SAFETY_LOG_FILE, "w") as f:
+        json.dump([], f)
+
+
+@app.post("/api/safety/scan")
+async def safety_scan(
+    bg_tasks: BackgroundTasks,
+    plate_number: Optional[str] = None,
+    vehicle_type: Optional[str] = None,
+    is_repeat_offender: bool = False,
+    location_lat: Optional[float] = None,
+    location_lng: Optional[float] = None,
+    image: UploadFile = File(...)
+):
+    """
+    🛡️ VAHAAN Road Safety Scan
+    Upload an image for simultaneous multi-violation detection:
+      - No Helmet (motorcycle)
+      - No Seat Belt (car)
+      - Mobile Phone use while driving
+      - Triple Riding
+      - Wrong-Way Driving
+
+    Returns a full violation report with fines calculated per MV Act 2019.
+    """
+    # Save uploaded image to a temp location
+    SAFETY_SCAN_DIR = root_path / "data" / "safety_scans"
+    SAFETY_SCAN_DIR.mkdir(parents=True, exist_ok=True)
+
+    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    ext = image.filename.split(".")[-1] if "." in image.filename else "jpg"
+    save_name = f"scan_{timestamp}_{plate_number or 'unknown'}.{ext}"
+    save_path = SAFETY_SCAN_DIR / save_name
+
+    image_bytes = await image.read()
+    with open(save_path, "wb") as f:
+        f.write(image_bytes)
+
+    # Run the Safety Engine
+    result = safety_engine.scan(
+        image_path=str(save_path),
+        plate_number=plate_number,
+        vehicle_type=vehicle_type,
+        is_repeat_offender=is_repeat_offender,
+    )
+
+    # Enrich with location data
+    result["location"] = {"lat": location_lat, "lng": location_lng}
+    result["image_url"] = f"/static/safety/{save_name}"
+
+    # Auto-log if violations were detected
+    if not result["is_compliant"]:
+        bg_tasks.add_task(_log_safety_violation, result)
+
+    return result
+
+
+@app.get("/api/safety/violations")
+async def get_safety_violations(limit: int = 50, plate: Optional[str] = None):
+    """
+    Retrieve the history of road safety violations.
+    Optionally filter by plate number.
+    """
+    with open(SAFETY_LOG_FILE, "r") as f:
+        log = json.load(f)
+
+    if plate:
+        log = [entry for entry in log if entry.get("plate", "").upper() == plate.upper()]
+
+    # Return most recent first
+    return {"total": len(log), "violations": list(reversed(log))[:limit]}
+
+
+@app.get("/api/safety/catalogue")
+async def get_violation_catalogue():
+    """Return all supported violation types with fine amounts and legal references."""
+    return {
+        "source": "Motor Vehicles (Amendment) Act, 2019",
+        "catalogue": safety_engine.get_catalogue(),
+        "engine_status": safety_engine.get_stats(),
+    }
+
+
+@app.get("/api/safety/stats")
+async def get_safety_stats():
+    """Return aggregated road safety statistics from the violation log."""
+    with open(SAFETY_LOG_FILE, "r") as f:
+        log = json.load(f)
+
+    if not log:
+        return {"total_scans": 0, "total_violations": 0, "total_fines_issued": 0, "by_violation": {}}
+
+    total_violations = sum(e.get("violation_count", 0) for e in log)
+    total_fines = sum(e.get("total_fine", 0) for e in log)
+
+    by_violation: dict = {}
+    for entry in log:
+        for v in entry.get("violations_found", []):
+            key = v["violation_key"]
+            if key not in by_violation:
+                by_violation[key] = {"count": 0, "total_fines": 0, "label": v["label"], "icon": v["icon"]}
+            by_violation[key]["count"] += 1
+            by_violation[key]["total_fines"] += v["fine_applied"]
+
+    return {
+        "total_scans":         len(log),
+        "total_violations":    total_violations,
+        "total_fines_issued":  total_fines,
+        "by_violation":        by_violation,
+    }
+
+
+def _log_safety_violation(scan_result: dict):
+    """Background task: append scan result to the persistent safety log."""
+    try:
+        with open(SAFETY_LOG_FILE, "r") as f:
+            log = json.load(f)
+        log.append(scan_result)
+        # Keep only the last 5,000 records to prevent unbounded growth
+        if len(log) > 5000:
+            log = log[-5000:]
+        with open(SAFETY_LOG_FILE, "w") as f:
+            json.dump(log, f, indent=2)
+    except Exception as e:
+        print(f"[!] Safety log write error: {e}")
+
+
 # Mount Static Files for access to verification images
 # We try multiple paths in case the script is run from different locations
 app.mount("/static/verify", StaticFiles(directory=str(LBL_VERIFY_DIR)), name="verify")
 # Also mount the main dataset for the fallback logic
 app.mount("/static/train", StaticFiles(directory=str(root_path / "data" / "labeled" / "vehicle_dataset" / "train" / "images")), name="train")
+# mount safety scans
+SAFETY_SCAN_MOUNT = root_path / "data" / "safety_scans"
+SAFETY_SCAN_MOUNT.mkdir(parents=True, exist_ok=True)
+app.mount("/static/safety", StaticFiles(directory=str(SAFETY_SCAN_MOUNT)), name="safety")
 
 if __name__ == "__main__":
     import uvicorn
