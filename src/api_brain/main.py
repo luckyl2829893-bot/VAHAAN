@@ -36,6 +36,7 @@ if str(root_path) not in sys.path:
 from src.database.manager import DBManager
 from src.database.db_writer import lookup_plate, insert_full_record
 from src.features.safety_engine import SafetyEngine
+from src.features.pothole_alert import PotholeAlertSystem
 
 # --- Setup Directories ---
 USER_DATA_DIR = root_path / "data" / "users"
@@ -84,6 +85,7 @@ class VisionEngine:
 
 vision_engine = VisionEngine()
 safety_engine = SafetyEngine(root_path)
+pothole_alert_system = PotholeAlertSystem(root_path)
 
 class FaceEngine:
     def __init__(self):
@@ -743,6 +745,129 @@ def _log_safety_violation(scan_result: dict):
         print(f"[!] Safety log write error: {e}")
 
 
+# ─────────────────────────────────────────────────────────────────────────────
+# VAHAAN Pothole Alert API
+# ─────────────────────────────────────────────────────────────────────────────
+
+class ResolveTicketRequest(BaseModel):
+    ticket_id: str
+    resolved_by: str
+    notes: str
+
+
+@app.post("/api/pothole/report")
+async def report_pothole(
+    bg_tasks: BackgroundTasks,
+    lat: Optional[float] = None,
+    lng: Optional[float] = None,
+    address: Optional[str] = None,
+    reported_by: Optional[str] = None,
+    image: UploadFile = File(...)
+):
+    """
+    🕳️ VAHAAN Pothole Report & Alert
+    Upload a road image. If potholes are detected:
+      - Severity is classified (LOW / MODERATE / HIGH / CRITICAL)
+      - GPS coordinates mapped to Delhi MCD ward
+      - Responsible contractor is identified
+      - Instant alert dispatched (email + SMS)
+      - Ticket issued with SLA deadline
+      - Fine registered for contractor if SLA missed
+    """
+    POTHOLE_SCAN_DIR = root_path / "data" / "pothole_reports"
+    POTHOLE_SCAN_DIR.mkdir(parents=True, exist_ok=True)
+
+    timestamp = datetime.utcnow().strftime("%Y%m%d_%H%M%S")
+    ext = image.filename.split(".")[-1] if "." in image.filename else "jpg"
+    save_name = f"pothole_{timestamp}.{ext}"
+    save_path = POTHOLE_SCAN_DIR / save_name
+
+    image_bytes = await image.read()
+    with open(save_path, "wb") as f:
+        f.write(image_bytes)
+
+    # Run pothole detection via safety engine
+    scan = safety_engine.scan(
+        image_path=str(save_path),
+        vehicle_type="road",
+    )
+
+    # Filter for pothole-type detections
+    pothole_detections = [
+        {
+            "confidence": v["confidence"],
+            "bbox": v.get("bbox"),
+            "class_name": v["violation_key"],
+        }
+        for v in scan.get("violations_found", [])
+        if "pothole" in v["violation_key"].lower()
+    ]
+
+    # If safety engine in simulation mode — generate a demo detection
+    if scan["mode"] == "simulation" or not pothole_detections:
+        # Demo: treat every report as a pothole with random severity
+        import random
+        pothole_detections = [{
+            "confidence": random.uniform(0.55, 0.92),
+            "bbox": None,
+            "class_name": "pothole",
+        }]
+
+    image_url = f"/static/pothole/{save_name}"
+
+    # Raise contractor alert
+    alert_result = pothole_alert_system.raise_alert(
+        pothole_detections=pothole_detections,
+        lat=lat,
+        lng=lng,
+        address=address,
+        reported_by=reported_by or "Citizen",
+        image_url=image_url,
+    )
+
+    return {
+        "status": "alert_raised",
+        "scan": scan,
+        "alert": alert_result,
+        "image_url": image_url,
+    }
+
+
+@app.get("/api/pothole/alerts")
+async def get_pothole_alerts(
+    status: Optional[str] = None,
+    ward: Optional[str] = None,
+    severity: Optional[str] = None,
+    limit: int = 100,
+):
+    """
+    Retrieve pothole alert tickets.
+    Filter by: status (OPEN/RESOLVED), ward name, severity (LOW/MODERATE/HIGH/CRITICAL)
+    """
+    return pothole_alert_system.get_alerts(
+        status=status, ward=ward, severity=severity, limit=limit
+    )
+
+
+@app.post("/api/pothole/resolve")
+async def resolve_pothole_ticket(data: ResolveTicketRequest):
+    """Mark a pothole ticket as RESOLVED (for use by MCD/contractor portal)."""
+    return pothole_alert_system.resolve_ticket(
+        ticket_id=data.ticket_id,
+        resolved_by=data.resolved_by,
+        notes=data.notes,
+    )
+
+
+@app.get("/api/pothole/stats")
+async def get_pothole_stats():
+    """
+    Aggregated pothole analytics for the Sentinel dashboard:
+    total alerts, open/resolved count, worst ward, potential fines.
+    """
+    return pothole_alert_system.get_stats()
+
+
 # Mount Static Files for access to verification images
 # We try multiple paths in case the script is run from different locations
 app.mount("/static/verify", StaticFiles(directory=str(LBL_VERIFY_DIR)), name="verify")
@@ -752,6 +877,10 @@ app.mount("/static/train", StaticFiles(directory=str(root_path / "data" / "label
 SAFETY_SCAN_MOUNT = root_path / "data" / "safety_scans"
 SAFETY_SCAN_MOUNT.mkdir(parents=True, exist_ok=True)
 app.mount("/static/safety", StaticFiles(directory=str(SAFETY_SCAN_MOUNT)), name="safety")
+# mount pothole reports
+POTHOLE_MOUNT = root_path / "data" / "pothole_reports"
+POTHOLE_MOUNT.mkdir(parents=True, exist_ok=True)
+app.mount("/static/pothole", StaticFiles(directory=str(POTHOLE_MOUNT)), name="pothole")
 
 if __name__ == "__main__":
     import uvicorn

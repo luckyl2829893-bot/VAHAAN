@@ -7,6 +7,10 @@ VAHAAN_Developer_Log.md
 arg_mlops_audit_and_roadmap.md
 PROJECT_GUIDE.md
 
+# Raw training datasets (large — use DVC or Roboflow for versioning)
+Road safety data/
+data/safety_dataset_eval/
+
 # --- TRACKED FILES (FOR REFERENCE) ---
 # We make sure code and documentation are explicitly tracked.
 !README.md
