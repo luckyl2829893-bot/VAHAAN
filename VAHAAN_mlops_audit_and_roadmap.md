@@ -1,6 +1,6 @@
-# 🛡️ ARG Project Audit & MLOps Lifecycle Roadmap
+# 🛡️ VAHAAN Project Audit & MLOps Lifecycle Roadmap
 
-This document provides a gap analysis of the current Aequitas RoadGuard (ARG) system and defines the engineering path to transform it from a local prototype into a scalable, MLOps-driven cloud product.
+This document provides a gap analysis of the current **VAHAAN** system and defines the engineering path to transform it from a local prototype into a scalable, MLOps-driven cloud product.
 
 ---
 
@@ -39,7 +39,7 @@ To move forward, we must stop thinking about "Scripts" and start thinking about 
 3.  **Adverse Weather Retraining:** Use your Raining/Snowing dataset to "Fine-Tune" the Plate Sniper for low-visibility conditions.
 
 ### Phase 2: From Templates to True LLM (The NLP Layer)
-1.  **Gemini API Integration:** Replace the template engine in `arg_video_engine.py` with a call to **Gemini 1.5 Flash**.
+1.  **Gemini API Integration:** Replace the template engine in `vahaan_video_engine.py` with a call to **Gemini 1.5 Flash**.
 2.  **Multilingual Support:** Allow the LLM to generate challans in Hindi, Gujarati, Tamil, etc., based on the vehicle's RTO state.
 3.  **Legal Reasoning:** Teach the LLM to cite specific sections of the *Motor Vehicles (Amendment) Act, 2019*.
 

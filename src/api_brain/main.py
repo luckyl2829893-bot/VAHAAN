@@ -334,7 +334,7 @@ def simulate_gemma_reasoning(human_data: dict, ai_data: dict, filename: str):
     """
     OLLAMA_URL = "http://localhost:11434/api/generate"
     prompt = f"""
-    [AEQUITAS NEURAL CORE - AUDIT MODE]
+    [VAHAAN NEURAL CORE - AUDIT MODE]
     Architecture: Gemma 4 e2b (April 2026 Release)
     Task: Resolve discrepancy between Vision CNN and Human User.
     

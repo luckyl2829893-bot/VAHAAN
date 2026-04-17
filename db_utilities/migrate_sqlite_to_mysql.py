@@ -1,5 +1,5 @@
 """
-migrate_sqlite_to_mysql.py  —  Aequitas RoadGuard Migration Utility
+migrate_sqlite_to_mysql.py  —  VAHAAN Migration Utility
 ==================================================================
 Moves all data from a local SQLite database to a MySQL instance.
 Ensure you have configured your .env file first.

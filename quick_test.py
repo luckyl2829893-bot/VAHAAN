@@ -1,5 +1,5 @@
 """
-Aequitas RoadGuard — QUICK TEST v9 (Precision Sharpness)
+VAHAAN — QUICK TEST v9 (Precision Sharpness)
 ======================================================
 1. Precision Plate Filter: Aspect Ratio 3.5 - 5.5 (kills decals).
 2. Proximity Logo Search: Anchored above detected plates.
@@ -20,7 +20,7 @@ import groundingdino.datasets.transforms as T
 # ══════════════════════════════════════════════════════════════
 VIDEO_PATH    = "test_video.mp4"
 MODEL_PATH    = "best_new.pt"
-OUTPUT_PATH   = "test_outputs/FINAL_ROADGUARD_V9.mp4"
+OUTPUT_PATH   = "test_outputs/FINAL_VAHAAN_V9.mp4"
 VEHICLE_CONF  = 0.15
 VEHICLE_IOU   = 0.45
 VEHICLE_IDS   = {0: "Car", 1: "Motorcycle", 2: "Bus", 3: "Truck"}

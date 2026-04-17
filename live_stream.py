@@ -1,5 +1,5 @@
 """
-Aequitas RoadGuard — LIVE STREAM ENGINE
+VAHAAN — LIVE STREAM ENGINE
 ========================================
 Supports: USB Webcam (0), Phone (IP Cam), Security Camera (RTSP)
 Controls: Press 'q' to quit.
@@ -86,7 +86,7 @@ def main():
     gd_m = load_gdino_model(GDINO_CONFIG, GDINO_WEIGHTS, device=device).to(device)
     trans = build_gdino_transform()
     cap = cv2.VideoCapture(LIVE_SOURCE)
-    cv2.namedWindow("Aequitas RoadGuard - LIVE", cv2.WINDOW_NORMAL)
+    cv2.namedWindow("VAHAAN - LIVE", cv2.WINDOW_NORMAL)
 
     gd_cache = {}; last_dets = []; f_idx = 0
     while True:
@@ -128,7 +128,7 @@ def main():
             for cl, cf, sx1, sy1, sx2, sy2 in d["comps"]:
                 cc = COMP_COLORS.get(cl,(200,200,200)); cv2.rectangle(frame, (sx1,sy1), (sx2,sy2), cc, 1)
         
-        cv2.imshow("Aequitas RoadGuard - LIVE", frame)
+        cv2.imshow("VAHAAN - LIVE", frame)
         f_idx += 1
         if cv2.waitKey(1) & 0xFF == ord('q'): break
 

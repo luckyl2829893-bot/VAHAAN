@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.aequitas" "\0"
-            VALUE "FileDescription", "aequitas_roadguard" "\0"
+            VALUE "CompanyName", "com.vahaan" "\0"
+            VALUE "FileDescription", "vahaan" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "aequitas_roadguard" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2026 com.aequitas. All rights reserved." "\0"
-            VALUE "OriginalFilename", "aequitas_roadguard.exe" "\0"
-            VALUE "ProductName", "aequitas_roadguard" "\0"
+            VALUE "InternalName", "vahaan" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2026 com.vahaan. All rights reserved." "\0"
+            VALUE "OriginalFilename", "vahaan.exe" "\0"
+            VALUE "ProductName", "vahaan" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

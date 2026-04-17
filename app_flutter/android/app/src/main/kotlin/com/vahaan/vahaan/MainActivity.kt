@@ -1,4 +1,4 @@
-package com.aequitas.aequitas_roadguard
+package com.vahaan.vahaan
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -251,7 +251,7 @@ def generate_legal_narrative(plate_text, violation_type, vehicle_type,
     # Build the legal narrative
     narrative = f"""
 {'='*70}
-                    AEQUITAS ROADGUARD — AUTOMATED CHALLAN
+                    VAHAAN — AUTOMATED CHALLAN
 {'='*70}
 
 CASE REFERENCE:     ARG/{timestamp.strftime('%Y%m%d%H%M%S')}/{plate_text or 'UNKNOWN'}
@@ -305,7 +305,7 @@ LEGAL NOTICE
   "{violation_type}" at {location}.
 
   Under the Motor Vehicles (Amendment) Act, 2019, and as per the
-  Aequitas Fair Penalty Framework, the base fine of ₹{base_fine:,.0f}
+  VAHAAN Fair Penalty Framework, the base fine of ₹{base_fine:,.0f}
   has been adjusted by a Wealth Multiplier of {multiplier:.2f}x based
   on the registered vehicle invoice value of ₹{vehicle_value:,.0f},
   resulting in a final challan amount of ₹{final_fine:,.0f}.

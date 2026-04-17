@@ -1,6 +1,6 @@
 # Project History & Error Post-Mortem Report
 
-As requested, here is the official breakdown of exactly what went wrong in our initial attempts to train the single-stage YOLO model for the Aequitas RoadGuard (ARG) system, and why the outputs on the initial `predict_test` folder looked so disjointed.
+As requested, here is the official breakdown of exactly what went wrong in our initial attempts to train the single-stage YOLO model for the VAHAAN (ARG) system, and why the outputs on the initial `predict_test` folder looked so disjointed.
 
 ---
 

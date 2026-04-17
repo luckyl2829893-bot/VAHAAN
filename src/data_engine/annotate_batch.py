@@ -1,7 +1,7 @@
 """
 annotate_batch.py
 =================
-Aequitas RoadGuard — Batch annotation using YOLOv11m (COCO).
+VAHAAN — Batch annotation using YOLOv11m (COCO).
 
 Switched from Grounded DINO to yolo11m.pt because DINO was:
 - Labeling tractors/commercial trucks as motorcycle

@@ -1,7 +1,7 @@
 """
 ARG_Auto_Growth_Pipeline.py
 ============================
-Aequitas RoadGuard — Self-Growing Continuous Learning Engine (MySQL Version)
+VAHAAN — Self-Growing Continuous Learning Engine (MySQL Version)
 =============================================================================
 
 What this script does (fully automatically, zero manual steps):

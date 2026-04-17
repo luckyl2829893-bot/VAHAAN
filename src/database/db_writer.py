@@ -1,5 +1,5 @@
 """
-db_writer.py  —  Aequitas RoadGuard
+db_writer.py  —  VAHAAN
 ====================================
 Drop into  C:\\Users\\laksh\\Desktop\\image\\  and run:
 

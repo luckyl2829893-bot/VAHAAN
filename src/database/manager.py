@@ -1,5 +1,5 @@
 """
-manager.py  —  Aequitas RoadGuard Database Manager (MySQL Primary)
+manager.py  —  VAHAAN Database Manager (MySQL Primary)
 ======================================================
 This module provides a unified interface for MySQL.
 It handles connection pooling and schema consistency.
@@ -24,11 +24,11 @@ MYSQL_HOST = os.getenv("MYSQL_HOST", "localhost")
 MYSQL_PORT = int(os.getenv("MYSQL_PORT", 3306))
 MYSQL_USER = os.getenv("MYSQL_USER", "root")
 MYSQL_PASSWORD = os.getenv("MYSQL_PASSWORD", "")
-MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "arg_roadguard")
+MYSQL_DATABASE = os.getenv("MYSQL_DATABASE", "arg_VAHAAN")
 
 
 class DBManager:
-    """Unified MySQL Database Manager for Aequitas RoadGuard."""
+    """Unified MySQL Database Manager for VAHAAN."""
 
     @staticmethod
     def get_connection():

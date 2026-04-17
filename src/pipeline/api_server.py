@@ -28,7 +28,7 @@ ARG API Server — FastAPI Backend for the Mobile App (MySQL Optimized)
 """
 
 app = FastAPI(
-    title="Aequitas RoadGuard API",
+    title="VAHAAN API",
     description="AI-Powered Traffic Enforcement System. Upload vehicle images to detect plates, lookup owners, and calculate fines.",
     version="2.1.0"
 )
@@ -53,7 +53,7 @@ ocr_reader = None
 @app.on_event("startup")
 async def load_models():
     global vehicle_model, plate_model, ocr_reader
-    print("🚀 Starting Aequitas RoadGuard API Server...")
+    print("🚀 Starting VAHAAN API Server...")
     
     # 1. Base Vehicle Model
     try:
